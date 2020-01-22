@@ -105,7 +105,6 @@ class PagesController < ApplicationController
 
   def dashboard
     @avatar_initial = current_user.email[0].upcase
-    @lines = current_user.lines
   end
 
   def help
