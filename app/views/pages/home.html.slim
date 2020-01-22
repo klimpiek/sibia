@@ -1,0 +1,20 @@
+div data-controller="pages"
+  span data-target="pages.output"
+div.empty
+  div.empty-icon
+    i.material-icons-outlined style="font-size: 96px;" report_problem
+  p.empty-title.h5 Not open to public yet
+  p.empty-subtitle currently in development
+  p
+    | Klimpiek is a personal productivity tool with these features:
+  p
+    | &mdash; bookmarking from instant messenger &mdash;
+    br
+    a.text-warning<> href="https://line.me" Line mesenger
+    | and
+    a.text-warning<> href="https://telegram.org/" Telegram
+    | is currently supported.
+  p
+    | &mdash; todo list with due date and status &mdash;
+  div.empty-action
+    = mail_to "hello@klimpiek.com", "Send a message", class: 'btn'

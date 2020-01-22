@@ -1,0 +1,40 @@
+h4 Tasks
+
+ul.tab.tab-block
+  li.tab-item class=(params[:query].downcase == 'ongoing' ? 'active' : '')
+    = link_to "Ongoing", tasks_path(query: 'ongoing')
+  li.tab-item class=(params[:query].downcase == 'completed' ? 'active' : '')
+    = link_to "Completed", tasks_path(query: 'completed')
+  li.tab-item class=(params[:query].downcase == 'waiting' ? 'active' : '')
+    = link_to "Waiting", tasks_path(query: 'Waiting')
+  li.tab-item class=(params[:query].downcase == 'all' ? 'active' : '')
+    = link_to "All", tasks_path(query: 'All')
+div.pt-2
+- @bits.each do |bit|
+  div.tile.tile-centered
+    div.tile-icon.flex-center
+      = status_icon(bit)
+    div.tile-content
+      div.tile-title title=bit.status = link_to bit.title, bit
+      small.tile-subtitle = bit.description
+      - if bit.due_at.present?
+        small.tile-subtitle
+          | due at
+          =< bit.due_at.in_time_zone(bit.due_at_time_zone || current_user.time_zone).to_formatted_s(:short)
+          =< "(#{bit.due_at_time_zone || current_user.time_zone})"
+    div.tile-action.flex-center
+      - if bit.uri.present?
+        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer"} do
+          i.material-icons-outlined.fix-icon-width bookmark_border
+      - else
+        i.fix-icon-width
+      - if bit.favorite?(user: current_user)
+        i.material-icons-outlined.fix-icon-width favorite_border
+      - else
+        i.fix-icon-width
+      = link_to edit_bit_path(bit) do
+        i.icon.icon-more-vert
+  div.divider
+
+div
+  == pagy_spectre_nav(@pagy) if @pagy.pages > 1

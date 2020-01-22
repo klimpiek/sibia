@@ -1,0 +1,20 @@
+p
+  | search on
+  =< @search_params.to_unsafe_h
+
+- @bits.each do |bit|
+  div.tile.tile-centered
+    div.tile-content
+      div.tile-title = link_to bit.title, bit
+      small.tile-subtitle = bit.description
+    div.tile-action
+      - unless bit.unassigned?
+        = status_label(bit)
+      - if bit.uri.present?
+        = link_to bit.uri, {target: '_blank', class: 'btn btn-link'} do
+          i.icon.icon-link
+      - if bit.favorite?(user: current_user)
+        i.material-icons.btn.btn-link.disabled favorite_border
+      = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
+        i.icon.icon-more-vert
+  div.divider

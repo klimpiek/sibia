@@ -1,0 +1,26 @@
+h4 Links
+
+- @bits.each do |bit|
+  div.tile.tile-centered
+    div.tile-icon.flex-center
+      = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer"} do
+        i.material-icons-outlined bookmark_border
+    div.tile-content
+      div.tile-title
+        = link_to bit.title, bit
+      small.tile-subtitle = bit.description
+    div.tile-action.flex-center
+      - unless bit.unassigned?
+        = status_icon(bit, {class: 'fix-icon-width'})
+      - else
+        i.fix-icon-width
+      - if bit.favorite?(user: current_user)
+        i.material-icons-outlined.fix-icon-width favorite_border
+      - else
+        i.fix-icon-width
+      = link_to edit_bit_path(bit) do
+        i.icon.icon-more-vert
+  div.divider
+
+div
+  == pagy_spectre_nav(@pagy) if @pagy.pages > 1

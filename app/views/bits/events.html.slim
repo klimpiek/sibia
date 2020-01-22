@@ -1,0 +1,27 @@
+h4 Events
+
+- @bits.each do |bit|
+  div.tile.tile-centered
+    div.tile-content
+      div.tile-title = link_to bit.title, bit
+      small.tile-subtitle = bit.description
+    div.tile-action.flex-center
+      span
+        - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
+          = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
+      i.fix-icon-width
+      - unless bit.unassigned?
+        = status_icon(bit, {class: 'fix-icon-width'})
+      - else
+        i.fix-icon-width
+      - if bit.uri.present?
+        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer"} do
+          i.material-icons-outlined.fix-icon-width bookmark_border
+      - else
+        i.fix-icon-width
+      = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
+        i.icon.icon-more-vert
+  div.divider
+
+div
+  == pagy_spectre_nav(@pagy) if @pagy.pages > 1

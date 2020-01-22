@@ -1,0 +1,7 @@
+div.cv-event *{style: "top: calc(1.4em + 1.4em*#{row} + 2px*#{row})", class: [ \
+    ((event.begin_at < week) ? "continued" : ""), \
+    ((event.end_at > (week.end_of_week)) ? "toBeContinued" : ""), \
+    ((event.begin_at < week) ? "offset0" : "offset#{(event.begin_at.days_to_week_start)}"), \
+    calendar_event_span(event, week) \
+  ]}
+  = link_to event.title, event, class: ['text-dark']

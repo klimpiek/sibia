@@ -1,0 +1,53 @@
+div
+  = link_to "Today", agenda_path(selection: @user_selection), class: "btn float-right"
+  div.btn-group
+    = link_to "Week", agenda_path(start_date: @start_date, selection: 'week'), class: "btn btn-primary"
+    = link_to "Month", calendar_path(start_date: @start_date, selection: 'month'), class: "btn"
+    = link_to "Quarter", calendar_path(start_date: @start_date, selection: 'quarter'), class: "btn"
+br
+
+div.container style='xheight: 200px; min-width:600px'
+  div.columns.col-gapless
+    div.column.col-1
+    div.column.col-11
+      div.calendar.calendar-lg style="border-bottom-width: 0px;"
+        div.calendar-nav.navbar
+          = link_to agenda_path(start_date: @prev_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
+            i.icon.icon-arrow-left
+          div.navbar-primary = @start_date.strftime("%B %Y")
+          = link_to agenda_path(start_date: @next_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
+            i.icon.icon-arrow-right
+        div.calendar-container
+          div.calendar-header style="border-bottom-width: 0px;"
+            - @date_range.each do |day|
+              div.calendar-date = "#{day.strftime("%a")} (#{day.day})"
+      div.cv-wrapper.theme-default
+        div.cv-weeks
+          div.cv-week
+            - (@start_date.beginning_of_week..@start_date.end_of_week).each do |day|
+              div.cv-day
+            - @all_day_events.order('begin_at ASC').each_with_index do |event, row|
+              = render partial: 'pages/calendar_event', locals: {week: @start_date.beginning_of_week, event: event, row: row}
+div.container style='height: 900px; min-width:600px'
+  div.columns.col-gapless
+    div.column.col-1
+      div.calendar.calendar-lg style='border:none; min-width: 0; border-bottom-width: 0px;'
+        div.calendar-container
+          div.calendar-body
+            div.time-column
+              - 25.times do |x|
+                div
+                  - (DateTime.new(2020,1,1,9,0,0)+(x*30).send(:minutes)).tap do |time|
+                    span = time.strftime('%I:%M')
+                    span.hide-lg = time.strftime('%p')
+    div.column.col-11
+      div.calendar.calendar-lg style="border-bottom-width: 0px;"
+        div.calendar-container
+          div.calendar-body
+            - @date_range.each do |weekday|
+              div.calendar-date style='height: 720px' data-controller='agenda'
+                div.board.bg-secondary data-target="agenda.board"
+                ul.d-hide data-target="agenda.events"
+                  - @events_with_time.each do |event|
+                    - if (agenda_event = agenda_event(event, weekday, current_user.time_zone))
+                      li data=agenda_event

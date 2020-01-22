@@ -1,0 +1,15 @@
+h5 Tags
+- @tags.each do |tag|
+  span.chip
+    = link_to tag, search_path(q: {tag: tag})
+div.divider
+div
+- @ownerships.each do |ownership|
+  div.tile.tile-centered
+    div.tile-content
+      div.tile-title = link_to ownership.bit.title, ownership.bit
+      small.tile-subtitle = ownership.bit.description
+    div.tile-action
+      - ownership.tags.each do |tag|
+        span.chip = link_to tag, search_path(q: {tag: tag})
+  div.divider

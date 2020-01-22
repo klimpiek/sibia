@@ -1,0 +1,30 @@
+h5 Help
+
+div.accordion
+  input#accordion-workspace type="radio" name="accordion-radio" hidden=""
+  label.accordion-header for="accordion-workspace"
+    i.icon.icon-arrow-right>
+    strong Workspace
+  div.accordion-body
+    div Workspace shows all root bits with button to expand children bits. It gives a glimpse of bit organization.
+div.accordion
+  input#accordion-bits type="radio" name="accordion-radio" hidden=""
+  label.accordion-header for="accordion-bits"
+    i.icon.icon-arrow-right>
+    strong Bits
+  div.accordion-body
+    | Bits shows all bits. It is a quick view to find bit.
+div.accordion
+  input#accordion-favorite type="radio" name="accordion-radio" hidden=""
+  label.accordion-header for="accordion-favorite"
+    i.icon.icon-arrow-right>
+    strong Favorite
+  div.accordion-body
+    | Favorite shows only bits marked as favorites.
+div.accordion
+  input#accordion-links type="radio" name="accordion-radio" hidden=""
+  label.accordion-header for="accordion-links"
+    i.icon.icon-arrow-right>
+    strong Links
+  div.accordion-body
+    | Links shows only bits with links.

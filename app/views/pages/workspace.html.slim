@@ -1,0 +1,41 @@
+div.columns
+  div.column.col-12
+    h4 Workspace
+
+div.columns
+  div.colum.col-8.col-sm-12
+    - @roots.each_with_index do |bit, index|
+      div.accordion
+        input id="accordion-#{index}" type="checkbox" name="accordion-checkbox" hidden=""
+        label.accordion-header for="accordion-#{index}"
+          - if (children = bit.children) && children.present?
+            i.icon.icon-arrow-right.hide-sm
+            i.icon.icon-arrow-right.float-right.show-sm
+          - else
+            i.icon.hide-sm
+          =< link_to bit.title, bit
+        div.accordion-body
+          - children.each_with_index do |child, index|
+            div.accordion
+              input id="child-#{index}" type="checkbox" name="accordion-checkbox" hidden=""
+              label.accordion-header for="child-#{index}"
+                - if (grandchildren = child.children) && grandchildren.present?
+                  i.icon.icon-arrow-right.hide-sm
+                  i.icon.icon-arrow-right.float-right.show-sm
+                - else
+                  i.icon.hide-sm
+                =< link_to child.title, child
+              div.accordion-body
+    div
+      == pagy_spectre_nav(@pagy) if @pagy.pages > 1
+  div.column.col-4.col-sm-12
+    div.panel
+      div.panel-header.text-bold Todos
+      div.panel-body
+        - @tasks.each do |todo|
+          div.tile.tile-centered.pt-2
+            div.tile-content
+              div.tile-title = link_to todo.title, todo
+            div.tile-action
+              = status_icon(todo)
+      div.panel-footer

@@ -1,0 +1,66 @@
+div
+  = link_to "Today", gantt_path(period: @period), class: "btn float-right"
+  div.btn-group
+    / = link_to "Week", gantt_path(start_date: @start_date, period: 'week'), class: "btn #{(@period=='week') ? 'btn-primary' : ''}"
+    = link_to "Month", gantt_path(start_date: @start_date, period: 'month'), class: "btn #{(@period=='month') ? 'btn-primary' : ''}"
+    = link_to "Year", gantt_path(start_date: @start_date, period: 'year'), class: "btn #{(@period=='year') ? 'btn-primary' : ''}"
+br
+div
+  div.gantt style='width: 2048px'
+    div.gantt__row.gantt__row--months
+      div.gantt__row-first = @unit
+      - @units.each do |unit|
+        span = link_to unit[:unit], gantt_path(start_date: unit[:date], period: @period), class: 'text-gray'
+
+    div.gantt__row.gantt__row--lines
+      span
+      - @units.each do |unit|
+        span class=((unit[:date] == @marker) ? "marker" : "")
+
+    - @events.each do |event|
+      div.gantt__row
+        div.gantt__row-first
+          = link_to event.title, event, class: 'text-dark'
+        ul.gantt__row-bars
+          li style="grid-column: #{gantt_columns(event.begin_at, event.end_at, @start_date, @period)}" title=event.title
+            = link_to event.title, event, class: 'text-dark'
+
+/    div.gantt__row
+/        div.gantt__row-first Barnard Posselt
+/        ul.gantt__row-bars
+/            li style="grid-column: 4/11; background-color: #2ecaac;" Even longer project
+/
+/    div.gantt__row.gantt__row--empty
+/        div.gantt__row-first
+/            Ryley Huggons
+/        ul.gantt__row-bars
+/
+/    div.gantt__row
+/        div.gantt__row-first Lanie Erwin
+/        ul.gantt__row-bars
+/            li style="grid-column: 2/5; background-color: #2ecaac;" Start Februar
+/            li.stripes style="grid-column: 1/6; background-color: #ff6252;"
+/            li style="grid-column: 7/11; background-color: #54c6f9;" Same line
+/
+/    div.gantt__row.gantt__row--empty
+/        div.gantt__row-first Krishnah Pauleit
+/        ul.gantt__row-bars
+/
+/    div.gantt__row.gantt__row--empty
+/        div.gantt__row-first Hobard Lampitt
+/        ul.gantt__row-bars
+/
+/    div.gantt__row
+/        div.gantt__row-first Virgilio Jeanes
+/        ul.gantt__row-bars
+/            li style="grid-column: 2/5; background-color: #2ecaac;"
+/
+/    div.gantt__row
+/        div.gantt__row-first Ky Verick
+/        ul.gantt__row-bars
+/            li style="grid-column: 3/8; background-color: #54c6f9;" Long project
+/
+/    div.gantt__row
+/            div.gantt__row-first Ketti Waterworth
+/            ul.gantt__row-bars
+/                li style="grid-column: 4/9; background-color: #ff6252;" class="stripes" A title

@@ -1,0 +1,82 @@
+= form_for @bit, data: {controller: 'bit-form'} do |f|
+  - if @bit.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@bit.errors.count, "error")} prohibited this bit from being saved:"
+      ul
+        - @bit.errors.full_messages.each do |message|
+          li = message
+
+  div.form-group
+    = f.label :title, class: 'form-label'
+    = f.text_field :title, class: 'form-input'
+
+    = f.label :description, class: 'form-label'
+    = f.text_field :description, class: 'form-input'
+
+    = f.label :link, class: 'form-label'
+    = f.text_field :uri, class: 'form-input'
+
+    = f.label :content, class: 'form-label'
+    = f.text_area :content, class: 'form-input', rows: 3
+
+    = f.label :favorite, class: 'form-switch', data: {action: 'click->bit-form#favoriteToggle'}
+      = hidden_field_tag "ownership[favorite]", "false"
+      = check_box_tag "ownership[favorite]", 'true', @ownership.favorite, data: {action: 'change->bit-form#favoriteToggle', target: 'bit-form.favoriteCheckbox'}
+      i.form-icon
+      | favorite
+
+    = f.label :tags, class: 'form-label'
+    = text_field_tag "ownership[tag_list]", @ownership.tag_list, class: 'form-input'
+
+    = f.label :parent, class: 'form-label'
+    = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select"}
+
+  div.form-group
+    = f.submit nil, {class: 'btn'}
+    | &nbsp;
+    = link_to 'Back', bits_path, {class: 'btn btn-link'}
+
+  div.divider
+
+  h5 Task & Event
+  div.form-group
+    = f.label :status, class: 'form-label form-inline'
+    | &nbsp;&nbsp;&nbsp;
+    = f.collection_radio_buttons :status, Bit.statuses, :first, :first do |b|
+      = b.label(class:"form-radio form-inline") { b.radio_button + "<i class='form-icon'></i>".html_safe + b.text }
+      | &nbsp;&nbsp;
+
+    - Time.use_zone(@bit.due_at_time_zone || current_user.time_zone) do
+      = f.label :due_at, class: 'form-label'
+      div.input-group
+        = f.text_field :due_at, class: 'form-input', data: { controller: 'datetime-picker' }
+        div.has-icon-right.input-group-btn style="width: 30%"
+          = f.time_zone_select :due_at_time_zone, nil, { default: @bit.due_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
+          i.form-icon.icon.icon-location.hide-md
+
+  div.form-group
+    - Time.use_zone(@bit.begin_at_time_zone || current_user.time_zone) do
+      = f.label :begin_at, class: 'form-label'
+      div.input-group
+        = f.text_field :begin_at, class: 'form-input', data: { controller: 'datetime-picker' }
+        div.has-icon-right.input-group-btn style="width: 30%"
+          = f.time_zone_select :begin_at_time_zone, nil, { default: @bit.begin_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
+          i.form-icon.icon.icon-location.hide-md
+    - Time.use_zone(@bit.end_at_time_zone || current_user.time_zone) do
+      = f.label :end_at, class: 'form-label'
+      div.input-group.input-group-btn
+        = f.text_field :end_at, class: 'form-input', data: { controller: 'datetime-picker' }
+        div.has-icon-right.input-group-btn style="width: 30%"
+          = f.time_zone_select :end_at_time_zone, nil, { default: @bit.end_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
+          i.form-icon.icon.icon-location.hide-md
+    = f.label :all_day, class: 'form-switch', data: {action: 'click->bit-form#allDayToggle'}
+      = f.check_box :all_day, data: {action: 'change->bit-form#allDayToggle', target: 'bit-form.allDayCheckbox'}
+      i.form-icon
+      | All Day
+
+  div.form-group
+    - if @bit.persisted?
+      = link_to 'Destroy', @bit, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-error float-right'
+    = f.submit nil, {class: 'btn btn-primary'}
+    | &nbsp;
+    = link_to 'Back', bits_path, {class: 'btn btn-link'}

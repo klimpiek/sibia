@@ -1,0 +1,53 @@
+div.card
+  div.card-header
+    div.float-right.flex-center
+      - if @bit.favorite?(user: current_user)
+        i.material-icons-outlined.fix-icon-width favorite_border
+      div.dropdown.dropdown-right
+        div.btn-group
+          = link_to edit_bit_path(@bit), {class: 'btn'} do
+            i.icon.icon-edit
+          a.btn.dropdown-toggle tabindex="0"
+            i.icon.icon-caret
+          ul.menu
+            li.menu-item
+              = link_to 'Destroy', @bit, data: { confirm: 'Are you sure?' }, method: :delete, class: "text-error"
+    div.card-title.h5 = @bit.title
+    div.card-subtitle.text-gray = @bit.description
+    - if (tags = @bit.tags(user: current_user)).count > 0
+      - tags.each do |tag|
+        span.chip = tag
+  div.card-body
+    == @markdown
+    - if @bit.uri.present?
+      div.chip
+        = link_to @bit.uri, {title: @bit.uri, target: '_blank', rel: "noopener noreferrer"} do
+          i.avatar.avatar-sm.icon.icon-link.bit-uri-avatar
+        = link_to @bit.uri, @bit.uri, {title: @bit.uri, target: '_blank'}
+    div.pt-2
+      - if (@bit.unassigned? == false)
+          = status_label(@bit)
+      - if @bit.due_at.present?
+          =< @bit.due_at.try(:in_time_zone, @bit.due_at_time_zone || current_user.time_zone).to_formatted_s(:long)
+          =< "(#{@bit.due_at_time_zone || current_user.time_zone})"
+      - if @bit.begin_at.present?
+        br
+        = DateRangeFormatter.format(@bit.begin_at.try(:in_time_zone, @bit.begin_at_time_zone), @bit.end_at.try(:in_time_zone, @bit.end_at_time_zone), (@bit.all_day ? :default : :force_time))
+  div.card-footer
+    = link_to bits_path do
+      i.icon.icon-arrow-left
+      | Back
+    - if @bit.parent
+      | &nbsp;&nbsp;&nbsp;
+      = link_to @bit.parent do
+        i.icon.icon-arrow-up
+        =< @bit.parent.title
+- @children.each do |child|
+  div.pt-2
+  div.card
+    div.card-header
+      - if child.unassigned? == false
+        div.pt-2.float-right
+          = status_label(child)
+      div.card-title.h6 = link_to child.title, child
+      div.card-subtitle.text-gray = child.description

@@ -1,0 +1,9 @@
+- (week..week.end_of_week).each do |week_day|
+  div.cv-day *{class: [ \
+        (week_day < DateTime.current.beginning_of_month) ? "outsideOfMonth" : "", \
+        (week_day > DateTime.current.end_of_month) ? "outsideOfMonth" : "", \
+        (week_day.today?) ? "today" : "", \
+        (week_day < DateTime.current.beginning_of_day) ? "past" : "", \
+        (week_day > DateTime.current.end_of_day) ? "future" : "", \
+      ]}
+    div.cv-day-number = week_day.day

@@ -1,0 +1,9 @@
+div
+  figure.avatar.avatar-lg data-initial=@avatar_initial style="background-color: #5755d9;"
+  =< current_user.email
+div.divider
+div
+  - @lines.each do |line|
+    span.label.label-success Line
+    =< line.line_user
+div.divider

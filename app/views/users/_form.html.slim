@@ -1,0 +1,15 @@
+= form_for @user, data: {controller: 'bit-form'} do |f|
+  - if @user.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this bit from being saved:"
+      ul
+        - @user.errors.full_messages.each do |message|
+          li = message
+
+  div.form-group
+    = f.label :time_zone, class: 'form-label'
+    = f.time_zone_select :time_zone, nil, {}, class: 'form-input'
+  div.form-group
+    = f.submit nil, {class: 'btn btn-primary'}
+    | &nbsp;
+    = link_to 'Back', profile_user_path, {class: 'btn btn-link'}
