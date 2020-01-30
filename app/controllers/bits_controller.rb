@@ -2,6 +2,23 @@ class BitsController < ApplicationController
   before_action :set_bit, only: [:show, :edit, :update, :destroy]
   before_action :set_ownership, only: [:edit, :update]
 
+  # only for autocomplete parent. @bit could be nil (new bit)
+  def parents
+    if (@q = params[:q]) && @q.present?
+      @parents = [current_user.bits.find_all_by_generation(0).where("title ILIKE ?", "%#{@q}%"), current_user.bits.find_all_by_generation(1).where("title ILIKE ?", "%#{@q}%")]
+    else
+      @parents = [current_user.bits.find_all_by_generation(0), current_user.bits.find_all_by_generation(1)]
+    end
+
+    @parents = @parents.flatten.compact
+
+    if params[:id].present? && (@bit = current_user.bits.find(params[:id]))
+      @parents.delete_if { |bit| bit == @bit }
+    end
+
+    render layout: false
+  end
+
   # GET /favorites
   def favorites
     @bits = current_user.bits.favorites.recent_first

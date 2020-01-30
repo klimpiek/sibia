@@ -8,6 +8,10 @@ const application = Application.start()
 const context = require.context("controllers", true, /_controller\.js$/)
 application.load(definitionsFromContext(context))
 
+// Autocomplete
+import Autocomplete from './autocomplete.js'
+application.register('autocomplete', Autocomplete)
+
 // flatpickr date & time picker
 import Flatpickr from 'stimulus-flatpickr'
 application.register('flatpickr', Flatpickr)

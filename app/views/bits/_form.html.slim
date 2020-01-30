@@ -28,8 +28,14 @@
     = f.label :tags, class: 'form-label'
     = text_field_tag "ownership[tag_list]", @ownership.tag_list, class: 'form-input'
 
-    = f.label :parent, class: 'form-label'
-    = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select"}
+    div data-controller="parents-picker" data-parents-picker-url=parent_autocomplete_url(@bit) data-parents-picker-min-length='-1' data-action="loadstart->parents-picker#loadstart"
+      = f.label :parent, class: 'form-label'
+      = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parents-picker.input', action: 'focus->parents-picker#focus'}
+      = f.hidden_field :parent_id, data: {target: 'parents-picker.hidden'}
+      ul data-target="parents-picker.results"
+
+    / = f.label :parent, class: 'form-label'
+    / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select"}
 
   div.form-group
     = f.submit nil, {class: 'btn'}

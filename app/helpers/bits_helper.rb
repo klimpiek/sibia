@@ -1,4 +1,12 @@
 module BitsHelper
+  def parent_autocomplete_url(bit)
+    if bit.persisted?
+      parents_bit_path(bit)
+    else
+      parents_bits_path
+    end
+  end
+
   def status_icon(bit, options = {})
     color = 'text-primary'
     icon = case bit.status

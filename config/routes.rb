@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, only: :sessions
 
-  resources :bits
+  resources :bits do
+    get 'parents', to: 'bits#parents', on: :member
+    get 'parents', to: 'bits#parents', on: :collection
+  end
 
   resource :user, only: [:edit, :update] do
     get 'profile'
