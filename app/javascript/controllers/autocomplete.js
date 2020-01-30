@@ -130,6 +130,7 @@ export default class extends Controller {
   }
 
   onResultsClick(event) {
+    event.preventDefault()
     if (!(event.target instanceof Element)) return
     const selected = event.target.closest('[role="option"]')
     if (selected) this.commit(selected)

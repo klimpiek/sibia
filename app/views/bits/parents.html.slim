@@ -1,2 +1,3 @@
 - @parents.each do |parent|
-  li role='option' data-autocomplete-value=parent.id = parent.title
+  li.menu-item role='option' data-autocomplete-value=parent.id
+    = link_to parent.title, '#'
