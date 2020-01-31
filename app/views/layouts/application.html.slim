@@ -69,9 +69,9 @@ html
                 li.nav-item = link_to bits_path do
                   | Bits
                   div.float-right style='padding-right: 2em;'
-                    = link_to new_bit_path do
+                    = link_to new_bit_path, title: 'New Bit' do
                       i.icon.icon-plus
-                    = link_to advanced_search_path do
+                    = link_to advanced_search_path, title: 'Search' do
                       i.icon.icon-search
                 li.nav-item = link_to 'Favorites', favorites_path
                 li.nav-item = link_to 'Links', links_path
