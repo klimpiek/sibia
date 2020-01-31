@@ -25,10 +25,16 @@ export default class extends Autocomplete {
   
   add(event) {
     event.preventDefault()
+    let tags = this.tags()
     let chips = this.element.querySelector("#chips")
     let new_tags = []
-    if (this.inputTarget.value.trim()) {
-      new_tags.push(this.inputTarget.value)
+    let new_tag = this.inputTarget.value.trim()
+    if (new_tag) {
+      if (tags.includes(new_tag)) {
+        // Do not add existing tag
+      } else {
+        new_tags.push(this.inputTarget.value)
+      }
     }
     console.log(new_tags)
     new_tags.forEach(function(tag) {

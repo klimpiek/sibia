@@ -5,6 +5,13 @@ class BitsController < ApplicationController
   # only for autocomplete parent. @bit could be nil (new bit)
   def tags
     @tags = current_user.tags
+
+    if (@q = params[:q]) && @q.present?
+      @tags = @tags.select do |tag|
+        tag.downcase.include?(@q.downcase)
+      end
+    end
+
     render layout: false
   end
 

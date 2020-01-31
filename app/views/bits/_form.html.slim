@@ -32,8 +32,10 @@
           span.chip id=tag class='tag'
             = tag
             a href='#' class="btn btn-clear" aria-label="Close" role="button" data-action='click->tags-picker#remove' data-value=tag
+      / This is to anchor menu
+      div
+        ul.menu data-target="tags-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
       = text_field_tag 'tag_list', "", class: 'form-input input-sm', data: {target: 'tags-picker.input'}, style: "min-width: 6em;"
-      ul.menu data-target="tags-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
       = hidden_field_tag "ownership[tag_list]", "", data: {target: 'tags-picker.hidden'}
       button.btn.input-group-btn.btn-sm data-action='click->tags-picker#add' Add 
       button.btn.input-group-btn.btn-sm data-action='click->tags-picker#clear' Clear 
