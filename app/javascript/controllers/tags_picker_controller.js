@@ -18,7 +18,7 @@ export default class extends Autocomplete {
   remove(event) {
     event.preventDefault()
     let tag = event.target.dataset.value
-    let element = this.element.querySelector("#"+tag)
+    let element = this.element.querySelector("#t_"+tag)
     element.remove()
     this.set_hidden()
   }
@@ -48,7 +48,7 @@ export default class extends Autocomplete {
       link.setAttribute("data-action", "click->tags-picker#remove")
       link.setAttribute("data-value", tag)
 
-      span.setAttribute("id", tag)
+      span.setAttribute("id", "t_"+tag) // add prefix 't_' to avoid invalid letter in HTML DOM id
       span.setAttribute("class", "chip tag")
       span.innerHTML = tag
       span.appendChild(link)
@@ -69,7 +69,7 @@ export default class extends Autocomplete {
   tags() {
     let tags_list = this.element.querySelectorAll(".tag")
     let tags = Array.from(tags_list).map(function(v, i) {
-      return v.id
+      return v.id.substring(2)
     })
     console.log(tags)
     return tags
