@@ -32,6 +32,7 @@ export default class extends Autocomplete {
   }
 
   hintError(event) {
+    console.log(event)
     if (this.inputTarget.value.trim()) {
       if (this.hiddenTarget.value.trim()) {
         this.parentGroupTarget.classList.remove("has-error")
