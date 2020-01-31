@@ -1,6 +1,8 @@
 import Autocomplete from './autocomplete.js'
 
 export default class extends Autocomplete {
+  static targets = [ 'input', 'hidden', 'results', 'select' ]
+
   initialize() {
 //    console.log('parents-picker initialized')
   }
@@ -11,6 +13,13 @@ export default class extends Autocomplete {
     if (!query || query.length < this.minLength) {
       this.fetchResults()
     }
+  }
+
+  remove(event) {
+    event.preventDefault()
+    this.inputTarget.value = ""
+    this.hiddenTarget.value = ""
+    console.log(event)
   }
 
   loadstart(event) {
