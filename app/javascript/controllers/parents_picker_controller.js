@@ -1,6 +1,8 @@
 import Autocomplete from './autocomplete.js'
 
 export default class extends Autocomplete {
+  static targets = [ 'input', 'hidden', 'results', 'parentGroup', 'hint' ]
+
   initialize() {
 //    console.log('parents-picker initialized')
   }
@@ -13,18 +15,34 @@ export default class extends Autocomplete {
     }
   }
 
+  blur(event) {
+    this.hintError(event)
+  }
+
   remove(event) {
     event.preventDefault()
     this.inputTarget.value = ""
     this.hiddenTarget.value = ""
-    console.log(event)
+    this.hintError(event)
   }
 
   loadstart(event) {
-//    console.log(event)
+    // Clear hidden value to avoid invalid parent
+    this.hiddenTarget.value = ""
   }
 
-  load(event) {
-//    console.log(event)
+  hintError(event) {
+    if (this.inputTarget.value.trim()) {
+      if (this.hiddenTarget.value.trim()) {
+        this.parentGroupTarget.classList.remove("has-error")
+        this.hintTarget.classList.add("d-hide")
+      } else {
+        this.parentGroupTarget.classList.add("has-error")
+        this.hintTarget.classList.remove("d-hide")
+      }
+    } else {
+      this.parentGroupTarget.classList.remove("has-error")
+      this.hintTarget.classList.add("d-hide")
+    }
   }
 }
