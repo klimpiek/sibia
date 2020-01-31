@@ -26,13 +26,23 @@
       | favorite
 
     = f.label :tags, class: 'form-label'
-    = text_field_tag "ownership[tag_list]", @ownership.tag_list, class: 'form-input'
+    div.input-group data-controller="tags-picker" data-tags-picker-url=tag_autocomplete_url(@bit) data-tags-picker-min-length='-1'
+      span#chips
+        - @ownership.tags.try(:each) do |tag|
+          span.chip id=tag class='tag'
+            = tag
+            a href='#' class="btn btn-clear" aria-label="Close" role="button" data-action='click->tags-picker#remove' data-value=tag
+      = text_field_tag 'tag_list', "", class: 'form-input input-sm', data: {target: 'tags-picker.input'}, style: "min-width: 6em;"
+      ul.menu data-target="tags-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
+      = hidden_field_tag "ownership[tag_list]", "", data: {target: 'tags-picker.hidden'}
+      button.btn.input-group-btn.btn-sm data-action='click->tags-picker#add' Add 
+      button.btn.input-group-btn.btn-sm data-action='click->tags-picker#clear' Clear 
 
     div data-controller="parents-picker" data-parents-picker-url=parent_autocomplete_url(@bit) data-parents-picker-min-length='-1' data-action="loadstart->parents-picker#loadstart"
       = f.label :parent, class: 'form-label'
       div.input-group
         = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parents-picker.input', action: 'focus->parents-picker#focus'}
-        / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select d-hide", style: "max-width: 5em;", data: {target: 'parents-picker.select'}}
+        / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select d-hide", style: "max-width: 5em;"}
         button.btn.input-group-btn data-action='click->parents-picker#remove' Remove 
       = f.hidden_field :parent_id, data: {target: 'parents-picker.hidden'}
       ul.menu data-target="parents-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'

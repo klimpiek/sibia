@@ -1,4 +1,12 @@
 module BitsHelper
+  def tag_autocomplete_url(bit)
+    if bit.persisted?
+      tags_bit_path(bit)
+    else
+      tags_bits_path
+    end
+  end
+
   def parent_autocomplete_url(bit)
     if bit.persisted?
       parents_bit_path(bit)

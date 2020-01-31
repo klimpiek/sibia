@@ -1,8 +1,6 @@
 import Autocomplete from './autocomplete.js'
 
 export default class extends Autocomplete {
-  static targets = [ 'input', 'hidden', 'results', 'select' ]
-
   initialize() {
 //    console.log('parents-picker initialized')
   }

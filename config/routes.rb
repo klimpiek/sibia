@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :bits do
     get 'parents', to: 'bits#parents', on: :member
     get 'parents', to: 'bits#parents', on: :collection
+    get 'tags', to: 'bits#tags', on: :member
+    get 'tags', to: 'bits#tags', on: :collection
   end
 
   resource :user, only: [:edit, :update] do

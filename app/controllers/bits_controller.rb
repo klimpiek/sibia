@@ -3,6 +3,11 @@ class BitsController < ApplicationController
   before_action :set_ownership, only: [:edit, :update]
 
   # only for autocomplete parent. @bit could be nil (new bit)
+  def tags
+    @tags = current_user.tags
+    render layout: false
+  end
+
   def parents
     if (@q = params[:q]) && @q.present?
       @parents = [current_user.bits.find_all_by_generation(0).where("title ILIKE ?", "%#{@q}%"), current_user.bits.find_all_by_generation(1).where("title ILIKE ?", "%#{@q}%")]
