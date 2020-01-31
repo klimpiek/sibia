@@ -29,7 +29,7 @@
     div.input-group data-controller="tags-picker" data-tags-picker-url=tag_autocomplete_url(@bit) data-tags-picker-min-length='-1'
       span#chips
         - @ownership.tags.try(:each) do |tag|
-          span.chip id="t_#{tag} class='tag'
+          span.chip id="t_#{tag}" class='tag'
             = tag
             a href='#' class="btn btn-clear" aria-label="Close" role="button" data-action='click->tags-picker#remove' data-value=tag
       / This is to anchor menu
