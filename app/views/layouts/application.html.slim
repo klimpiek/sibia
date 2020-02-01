@@ -66,9 +66,10 @@ html
             div.hide-sm
               ul.nav
                 li.nav-item = link_to 'Workspace', workspace_path
-                li.nav-item = link_to bits_path do
-                  | Bits
-                  div.float-right style='padding-right: 2em;'
+                li.nav-item
+                  = link_to bits_path do
+                    | Bits
+                  div.float-right.hide-lg style='padding-right: 1.5em;'
                     = link_to new_bit_path, title: 'New Bit' do
                       i.icon.icon-plus
                     = link_to advanced_search_path, title: 'Search' do
