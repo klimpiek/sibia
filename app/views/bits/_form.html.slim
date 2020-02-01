@@ -47,9 +47,11 @@
           = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parents-picker.input', action: 'focus->parents-picker#focus blur->parents-picker#blur'}
           / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select d-hide", style: "max-width: 5em;"}
           button.btn.input-group-btn data-action='click->parents-picker#remove' Remove 
+        / anchor menu properly without be affected by appearing of hint below
+        div
+          ul.menu data-target="parents-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
         p.form-input-hint.d-hide data-target='parents-picker.hint' Invalid parent given. It will not be saved.
       = f.hidden_field :parent_id, data: {target: 'parents-picker.hidden'}
-      ul.menu data-target="parents-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
 
   div.form-group
     = f.submit nil, {class: 'btn'}
