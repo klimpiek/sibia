@@ -1,6 +1,8 @@
 class Bit < ApplicationRecord
   include Taggable
 
+  store_accessor :time_zone, :due_at, :begin_at, :end_at, suffix: true
+
   validates :title, presence: true, unless: :uri?
 
   has_closure_tree name_column: :title, order: 'sort_order', numeric_order: true

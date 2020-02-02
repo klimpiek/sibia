@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_01_152441) do
+ActiveRecord::Schema.define(version: 2020_02_02_134529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,15 +50,13 @@ ActiveRecord::Schema.define(version: 2020_02_01_152441) do
     t.integer "parent_id"
     t.integer "sort_order"
     t.datetime "due_at"
-    t.string "due_at_time_zone"
     t.integer "status", default: 0
     t.string "bookmarking_type"
     t.bigint "bookmarking_id"
     t.datetime "begin_at"
     t.datetime "end_at"
-    t.string "begin_at_time_zone"
-    t.string "end_at_time_zone"
     t.boolean "all_day", default: false
+    t.jsonb "time_zone", default: {}, null: false
     t.index ["bookmarking_type", "bookmarking_id"], name: "index_bits_on_bookmarking_type_and_bookmarking_id"
   end
 
