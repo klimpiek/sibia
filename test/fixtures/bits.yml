@@ -11,3 +11,9 @@ two:
   description: MyText
   content: MyText
   uri: MyText
+
+three:
+  title: MyText
+  description: MyText
+  content: MyText
+  uri: MyText

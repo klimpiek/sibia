@@ -11,3 +11,10 @@ two:
   bit: two
   tags: ['MyText']
   favorite: false
+
+three:
+  user: one
+  bit: three
+  tags: []
+  favorite: false
+
