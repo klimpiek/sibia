@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_02_134529) do
+ActiveRecord::Schema.define(version: 2020_02_03_074255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,25 @@ ActiveRecord::Schema.define(version: 2020_02_02_134529) do
     t.index ["bookmarking_type", "bookmarking_id"], name: "index_bits_on_bookmarking_type_and_bookmarking_id"
   end
 
+  create_table "constituents", force: :cascade do |t|
+    t.bigint "workspace_id", null: false
+    t.bigint "bit_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bit_id"], name: "index_constituents_on_bit_id"
+    t.index ["workspace_id"], name: "index_constituents_on_workspace_id"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "workspace_id", null: false
+    t.integer "role", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+    t.index ["workspace_id"], name: "index_memberships_on_workspace_id"
+  end
+
   create_table "ownerships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "bit_id", null: false
@@ -85,8 +104,19 @@ ActiveRecord::Schema.define(version: 2020_02_02_134529) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workspaces", force: :cascade do |t|
+    t.text "title", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "account_lines", "users", on_delete: :cascade
   add_foreign_key "account_telegrams", "users", on_delete: :cascade
+  add_foreign_key "constituents", "bits", on_delete: :cascade
+  add_foreign_key "constituents", "workspaces", on_delete: :cascade
+  add_foreign_key "memberships", "users", on_delete: :cascade
+  add_foreign_key "memberships", "workspaces", on_delete: :cascade
   add_foreign_key "ownerships", "bits", on_delete: :cascade
   add_foreign_key "ownerships", "users", on_delete: :cascade
 end
