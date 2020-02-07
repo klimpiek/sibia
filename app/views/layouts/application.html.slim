@@ -27,7 +27,7 @@ html
     div.pt-2
     div.container
       div.columns
-        div.column.col-sm-12.col-2.col-ml-auto
+        div.column.col-sm-12.col-3-md.col-2.col-ml-auto
           - if user_signed_in?
             div.dropdown.dropdown-right.float-right.show-sm
               button.btn.btn-link.dropdown-toggle tabindex="0"
@@ -97,7 +97,7 @@ html
             - else
               li.nav-item = link_to 'Login', new_user_session_path
               li.nav-item = link_to 'Help', help_path
-        div.column.col-sm-12.col-9.col-mr-auto style="overflow-x: auto;"
+        div.column.col-sm-12.col-md-8.col-9.col-mr-auto style="overflow-x: auto;"
           header.navbar
             section.navbar-section
               | &nbsp;
