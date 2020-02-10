@@ -34,7 +34,7 @@ class PagesController < ApplicationController
       @marker = DateTime.current.end_of_day
     end
 
-    @events = current_user.bits.events.occur_in(@date_range)
+    @events = current_user.bits.events.occur_in(@date_range).order("begin_at ASC")
     @tasks = current_user.bits.tasks.due_in(@date_range)
 
   end

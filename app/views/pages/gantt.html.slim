@@ -5,7 +5,7 @@ div
     = link_to "Month", gantt_path(start_date: @start_date, period: 'month'), class: "btn #{(@period=='month') ? 'btn-primary' : ''}"
     = link_to "Year", gantt_path(start_date: @start_date, period: 'year'), class: "btn #{(@period=='year') ? 'btn-primary' : ''}"
 br
-div
+div data-controller="gantt"
   div.gantt style='width: 2048px'
     div.gantt__row.gantt__row--months
       div.gantt__row-first = @unit
@@ -17,12 +17,12 @@ div
       - @units.each do |unit|
         span class=((unit[:date] == @marker) ? "marker" : "")
 
-    - @events.each do |event|
+    - @events.each_with_index do |event, index|
       div.gantt__row
         div.gantt__row-first
           = link_to event.title, event, class: 'text-dark'
         ul.gantt__row-bars
-          li style="grid-column: #{gantt_columns(event.begin_at, event.end_at, @start_date, @period)}" title=event.title
+          li id="bar_#{index}" style="grid-column: #{gantt_columns(event.begin_at, event.end_at, @start_date, @period)}" title=event.title
             = link_to event.title, event, class: 'text-dark'
 
 /    div.gantt__row
