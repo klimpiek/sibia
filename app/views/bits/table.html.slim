@@ -1,0 +1,32 @@
+table data-controller='table' data-target='table.data'
+  thead
+    tr
+      th Title
+      th Favorite
+      th Link
+      th Status
+      th Due at
+      th Event
+      th Tags
+  tbody
+    - @bits.each do |bit|
+      tr
+        td = link_to bit.title, bit, title: bit.description
+        td
+          - if bit.favorite?(user: current_user)
+            i.material-icons-outlined.fix-icon-width favorite_border
+        td 
+          - if bit.uri.present?
+            = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer"} do
+              i.material-icons-outlined bookmark_border
+        td
+          - if (bit.unassigned? == false)
+            = status_label(bit)
+        td
+          - if bit.due_at.present?
+            =< bit.due_at.try(:in_time_zone, bit.due_at_time_zone || current_user.time_zone).strftime("%b %e, %Y %k:%M")
+        td
+          - if (bit.begin_at.present? && bit.end_at.present?)
+            - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
+              = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
+        td = bit.tag_list(user: current_user)

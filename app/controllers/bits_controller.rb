@@ -2,6 +2,10 @@ class BitsController < ApplicationController
   before_action :set_bit, only: [:show, :edit, :update, :destroy]
   before_action :set_ownership, only: [:edit, :update]
 
+  def table
+    @bits = current_user.bits.recent_first
+  end
+
   # only for autocomplete parent. @bit could be nil (new bit)
   def tags
     @tags = current_user.tags

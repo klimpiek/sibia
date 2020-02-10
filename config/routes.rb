@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resolve("User") { [:user] } # to make form_for works properly on singular resource
 
   get 'favorites', to: 'bits#favorites'
+  get 'table', to: 'bits#table'
   get 'links', to: 'bits#links'
   get 'tasks', to: 'bits#tasks'
   get 'events', to: 'bits#events'

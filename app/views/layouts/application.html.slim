@@ -35,6 +35,7 @@ html
                 li.menu-item = link_to 'Workspace', workspace_path
                 li.menu-item = link_to 'Bits', bits_path
                 li.menu-item = link_to 'Favorites', favorites_path
+                li.menu-item = link_to 'Table', table_path
                 li.menu-item = link_to 'Links', links_path
                 li.menu-item = link_to 'Tasks', tasks_path(query: 'ongoing')
                 li.menu-item = link_to 'Events', events_path
@@ -72,6 +73,7 @@ html
                     = link_to advanced_search_path, title: 'Search' do
                       i.icon.icon-search
                 li.nav-item = link_to 'Favorites', favorites_path
+                li.nav-item = link_to 'Table', table_path
                 li.nav-item = link_to 'Links', links_path
                 li.nav-item = link_to 'Tasks', tasks_path(query: 'ongoing')
                 li.nav-item = link_to 'Events', events_path
