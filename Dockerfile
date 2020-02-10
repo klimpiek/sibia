@@ -40,6 +40,8 @@ WORKDIR /myapp
 
 RUN apk add --update --no-cache postgresql-client postgresql-dev tzdata libidn-dev
 
+gem install foreman
+
 COPY . /myapp
 COPY --from=gem /usr/local/bundle /usr/local/bundle
 COPY --from=gem /myapp/vendor/bundle /myapp/vendor/bundle
@@ -59,4 +61,4 @@ EXPOSE 3000
 
 # Start the main process.
 WORKDIR /myapp
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["foreman", "start", "-p", "3000"]
