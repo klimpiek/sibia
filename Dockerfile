@@ -40,7 +40,7 @@ WORKDIR /myapp
 
 RUN apk add --update --no-cache postgresql-client postgresql-dev tzdata libidn-dev
 
-gem install foreman
+RUN gem install foreman
 
 COPY . /myapp
 COPY --from=gem /usr/local/bundle /usr/local/bundle

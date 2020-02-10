@@ -34,11 +34,8 @@ export default class extends Controller {
     var dataTable = new DataTable(table, {
       perPage: 10,
       layout: {
-        top: "{info}{search}",
-        bottom: "{select}{pager}"
-      },
-      labels: {
-        info: "<h5>Bits</h5>"
+        top: "{search}{pager}",
+        bottom: "{select}"
       }
     });
 /*
