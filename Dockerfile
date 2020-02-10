@@ -33,14 +33,15 @@ RUN SECRET_KEY_BASE=dumb bundle exec rails assets:precompile \
 FROM ruby:2.6.5-alpine
 
 ENV RAILS_ENV production
-ENV RAILS_LOG_TO_STDOUT 1
+# ENV RAILS_LOG_TO_STDOUT 1
 ENV RAILS_SERVE_STATIC_FILES 1
 
 WORKDIR /myapp
 
 RUN apk add --update --no-cache postgresql-client postgresql-dev tzdata libidn-dev
 
-RUN gem install foreman
+# install at system level
+RUN gem install --no-document foreman
 
 COPY . /myapp
 COPY --from=gem /usr/local/bundle /usr/local/bundle
@@ -59,6 +60,8 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-# Start the main process.
 WORKDIR /myapp
+# For puma
+RUN mkdir -p tmp/pids
+# Start the main process.
 CMD ["foreman", "start", "-p", "3000"]
