@@ -76,6 +76,9 @@
           = f.time_zone_select :due_at_time_zone, nil, { default: @bit.due_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
           i.form-icon.icon.icon-location.hide-md
 
+    = f.label :predecessor, class: 'form-label'
+    = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select'}
+
   div.form-group
     - Time.use_zone(@bit.begin_at_time_zone || current_user.time_zone) do
       = f.label :begin_at, class: 'form-label'

@@ -169,7 +169,7 @@ class BitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bit_params
-      params.require(:bit).permit(:user_id, :title, :description, :content, :uri, :parent_id, :status, :due_at, :due_at_time_zone, :begin_at, :end_at, :begin_at_time_zone, :end_at_time_zone, :all_day)
+      params.require(:bit).permit(:user_id, :title, :description, :content, :uri, :parent_id, :status, :due_at, :due_at_time_zone, :begin_at, :end_at, :begin_at_time_zone, :end_at_time_zone, :all_day, :predecessor_id)
     end
 
     def ownership_params

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_074255) do
+ActiveRecord::Schema.define(version: 2020_02_11_023827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,9 @@ ActiveRecord::Schema.define(version: 2020_02_03_074255) do
     t.datetime "end_at"
     t.boolean "all_day", default: false
     t.jsonb "time_zone", default: {}, null: false
+    t.bigint "predecessor_id"
     t.index ["bookmarking_type", "bookmarking_id"], name: "index_bits_on_bookmarking_type_and_bookmarking_id"
+    t.index ["predecessor_id"], name: "index_bits_on_predecessor_id"
   end
 
   create_table "constituents", force: :cascade do |t|
@@ -113,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_02_03_074255) do
 
   add_foreign_key "account_lines", "users", on_delete: :cascade
   add_foreign_key "account_telegrams", "users", on_delete: :cascade
+  add_foreign_key "bits", "bits", column: "predecessor_id"
   add_foreign_key "constituents", "bits", on_delete: :cascade
   add_foreign_key "constituents", "workspaces", on_delete: :cascade
   add_foreign_key "memberships", "users", on_delete: :cascade

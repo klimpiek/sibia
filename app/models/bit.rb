@@ -12,6 +12,9 @@ class Bit < ApplicationRecord
 
   belongs_to :bookmarking, polymorphic: true, optional: true
 
+  belongs_to :predecessor, class_name: 'Bit', optional: true, inverse_of: :successors
+  has_many :successors, class_name: 'Bit', foreign_key: 'predecessor_id', inverse_of: :predecessor
+
   enum status: { unassigned: 0, todo: 1, ongoing: 8, waiting: 32, completed: 64 }
 
   scope :favorites, -> { where('ownerships.favorite': true) }
