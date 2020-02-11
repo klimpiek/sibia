@@ -36,7 +36,11 @@ export default class extends Controller {
       layout: {
         top: "{search}{pager}",
         bottom: "{select}"
-      }
+      },
+      columns: [
+        {select: 1, sortable: false},
+        {select: 2, sortable: false}
+      ]
     });
 /*
     fetch(path, { method: 'GET', headers: headers, credentials: 'same-origin' })

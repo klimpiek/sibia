@@ -2,8 +2,8 @@ table data-controller='table' data-target='table.data'
   thead
     tr
       th Title
-      th Favorite
-      th Link
+      th
+      th
       th Status
       th Due at
       th Event
@@ -14,11 +14,11 @@ table data-controller='table' data-target='table.data'
         td = link_to bit.title, bit, title: bit.description
         td
           - if bit.favorite?(user: current_user)
-            i.material-icons-outlined.fix-icon-width favorite_border
+            i.material-icons-outlined favorite_border
         td 
           - if bit.uri.present?
             = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer"} do
-              i.material-icons-outlined bookmark_border
+              i.icon.icon-bookmark
         td
           - if (bit.unassigned? == false)
             = status_label(bit)

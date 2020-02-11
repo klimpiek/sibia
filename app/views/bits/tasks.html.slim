@@ -23,16 +23,17 @@ div.pt-2
           =< bit.due_at.in_time_zone(bit.due_at_time_zone || current_user.time_zone).to_formatted_s(:short)
           =< "(#{bit.due_at_time_zone || current_user.time_zone})"
     div.tile-action.flex-center
+      span
+        - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
+          = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
+      i.fix-icon-width
       - if bit.uri.present?
-        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer"} do
-          i.material-icons-outlined.fix-icon-width bookmark_border
+        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer", class: 'btn btn-primary'} do
+          i.icon.icon-bookmark
       - else
-        i.fix-icon-width
-      - if bit.favorite?(user: current_user)
-        i.material-icons-outlined.fix-icon-width favorite_border
-      - else
-        i.fix-icon-width
-      = link_to edit_bit_path(bit) do
+        = link_to '#', {class: 'btn d-invisible'} do
+          i.icon
+      = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
 

@@ -12,7 +12,7 @@ h4 Links
     div.tile-action.flex-center
       - if bit.favorite?(user: current_user)
         i.material-icons-outlined.fix-icon-width favorite_border
-      = link_to edit_bit_path(bit) do
+      = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
 

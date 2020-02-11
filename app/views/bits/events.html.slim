@@ -2,6 +2,11 @@ h4 Events
 
 - @bits.each do |bit|
   div.tile.tile-centered
+    div.tile-icon.flex-center
+      - if bit.unassigned?
+        i.material-icons-outlined.d-invisible check_circle
+      - else
+        = status_icon(bit)
     div.tile-content
       div.tile-title = link_to bit.title, bit
       small.tile-subtitle = bit.description
@@ -10,15 +15,12 @@ h4 Events
         - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
           = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
       i.fix-icon-width
-      - unless bit.unassigned?
-        = status_icon(bit, {class: 'fix-icon-width'})
-      - else
-        i.fix-icon-width
       - if bit.uri.present?
-        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer"} do
-          i.material-icons-outlined.fix-icon-width bookmark_border
+        = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer", class: 'btn btn-primary'} do
+          i.icon.icon-bookmark
       - else
-        i.fix-icon-width
+        = link_to '#', {class: 'btn d-invisible'} do
+          i.icon
       = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
