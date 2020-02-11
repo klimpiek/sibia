@@ -25,8 +25,8 @@
       i.form-icon
       | favorite
 
-    = f.label :tags, class: 'form-label'
-    div.input-group data-controller="tags-picker" data-tags-picker-url=tag_autocomplete_url(@bit) data-tags-picker-min-length='-1'
+    div.form-group.input-group data-controller="tags-picker" data-tags-picker-url=tag_autocomplete_url(@bit) data-tags-picker-min-length='-1'
+      = f.label :tags, class: 'form-label input-group-addon addon-sm'
       span#chips
         - @ownership.tags.try(:each) do |tag|
           span.chip id="t_#{tag}" class='tag'
@@ -41,9 +41,9 @@
       button.btn.input-group-btn.btn-sm data-action='click->tags-picker#clear' Clear 
 
     div data-controller="parents-picker" data-parents-picker-url=parent_autocomplete_url(@bit) data-parents-picker-min-length='-1' data-action="loadstart->parents-picker#loadstart autocomplete.change->parents-picker#hintError" 
-      = f.label :parent, class: 'form-label'
       div.form-group data-target='parents-picker.parentGroup' 
         div.input-group
+          = f.label :parent, class: 'form-label input-group-addon'
           = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parents-picker.input', action: 'focus->parents-picker#focus blur->parents-picker#blur'}
           / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select d-hide", style: "max-width: 5em;"}
           button.btn.input-group-btn data-action='click->parents-picker#remove' Remove 
@@ -60,7 +60,7 @@
 
   div.divider
 
-  h5 Task & Event
+  h5 Task
   div.form-group
     = f.label :status, class: 'form-label form-inline'
     | &nbsp;&nbsp;&nbsp;
@@ -69,27 +69,32 @@
       | &nbsp;&nbsp;
 
     - Time.use_zone(@bit.due_at_time_zone || current_user.time_zone) do
-      = f.label :due_at, class: 'form-label'
       div.input-group
+        = f.label :due_at, class: 'form-label input-group-addon'
         = f.text_field :due_at, class: 'form-input', data: { controller: 'datetime-picker' }
         div.has-icon-right.input-group-btn style="width: 30%"
           = f.time_zone_select :due_at_time_zone, nil, { default: @bit.due_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
           i.form-icon.icon.icon-location.hide-md
 
-    = f.label :predecessor, class: 'form-label'
-    = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select'}
+  div.form-group
+    div.input-group
+      = f.label :predecessor, class: 'form-label input-group-addon'
+      = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select', style: 'width: 10vw;'}
 
+  div.divider
+  h5 Event
   div.form-group
     - Time.use_zone(@bit.begin_at_time_zone || current_user.time_zone) do
-      = f.label :begin_at, class: 'form-label'
       div.input-group
+        = f.label :begin_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :begin_at, class: 'form-input', data: { controller: 'datetime-picker' }
         div.has-icon-right.input-group-btn style="width: 30%"
           = f.time_zone_select :begin_at_time_zone, nil, { default: @bit.begin_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
           i.form-icon.icon.icon-location.hide-md
+  div.form-group
     - Time.use_zone(@bit.end_at_time_zone || current_user.time_zone) do
-      = f.label :end_at, class: 'form-label'
       div.input-group.input-group-btn
+        = f.label :end_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :end_at, class: 'form-input', data: { controller: 'datetime-picker' }
         div.has-icon-right.input-group-btn style="width: 30%"
           = f.time_zone_select :end_at_time_zone, nil, { default: @bit.end_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
