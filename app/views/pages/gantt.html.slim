@@ -22,7 +22,7 @@ div data-controller="gantt"
         div.gantt__row-first
           = link_to event.title, event, class: 'text-dark'
         ul.gantt__row-bars
-          li id="bar_#{index}" style="grid-column: #{gantt_columns(event.begin_at, event.end_at, @start_date, @period)}" title=event.title
+          li.gantt_event id=dom_id(event, :gantt) data-predecessor=(event.predecessor.present? ? dom_id(event.predecessor, :gantt) : nil) style="grid-column: #{gantt_columns(event.begin_at, event.end_at, @start_date, @period)}" title=event.title
             = link_to event.title, event, class: 'text-dark'
 
 /    div.gantt__row

@@ -87,8 +87,13 @@ export default class extends Controller {
     createSVG(this.chartTarget);
     createTriangleMarker();
 
-    this.connectDivs("bar_0", "bar_1", "blue", 0.2)
-    this.connectDivs("bar_1", "bar_2", "blue", 0.2)
+    let events = document.querySelectorAll(".gantt_event")
+    let this_controller = this
+    events.forEach(function(event) {
+      if(event.dataset.predecessor) {
+        this_controller.connectDivs(event.dataset.predecessor, event.id, "blue", 0.2)
+      }
+    })
   }
 
   findAbsolutePosition(htmlElement) {
