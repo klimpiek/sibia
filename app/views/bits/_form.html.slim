@@ -60,29 +60,22 @@
 
   div.divider
 
-  h5 Task
+  h5 Task & Event
   div.form-group
     = f.label :status, class: 'form-label form-inline'
     | &nbsp;&nbsp;&nbsp;
     = f.collection_radio_buttons :status, Bit.statuses, :first, :first do |b|
       = b.label(class:"form-radio form-inline") { b.radio_button + "<i class='form-icon'></i>".html_safe + b.text }
       | &nbsp;&nbsp;
-
+  div.form-group
     - Time.use_zone(@bit.due_at_time_zone || current_user.time_zone) do
       div.input-group
-        = f.label :due_at, class: 'form-label input-group-addon'
+        = f.label :due_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :due_at, class: 'form-input', data: { controller: 'datetime-picker' }
         div.has-icon-right.input-group-btn style="width: 30%"
           = f.time_zone_select :due_at_time_zone, nil, { default: @bit.due_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
           i.form-icon.icon.icon-location.hide-md
 
-  div.form-group
-    div.input-group
-      = f.label :predecessor, class: 'form-label input-group-addon'
-      = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select', style: 'width: 10vw;'}
-
-  div.divider
-  h5 Event
   div.form-group
     - Time.use_zone(@bit.begin_at_time_zone || current_user.time_zone) do
       div.input-group
@@ -103,6 +96,12 @@
       = f.check_box :all_day, data: {action: 'change->bit-form#allDayToggle', target: 'bit-form.allDayCheckbox'}
       i.form-icon
       | All Day
+
+  div.form-group
+    div.input-group
+      = f.label :predecessor, class: 'form-label input-group-addon'
+      = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select', style: 'width: 10vw;'}
+    p.form-input-hint Link this bit to its predecessor in gantt chart
 
   div.form-group
     - if @bit.persisted?
