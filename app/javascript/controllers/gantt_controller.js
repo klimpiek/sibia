@@ -3,59 +3,8 @@
 
 import { Controller } from "stimulus"
 
-function createSVG(element) {
-  var svg = document.getElementById("svg-canvas");
-  if ((null == svg) && (element != null)) {
-    svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute('id', 'svg-canvas');
-    svg.setAttribute('style', 'position:absolute;top:0px;left:0px;');
-    svg.setAttribute('width', element.offsetWidth);
-    svg.setAttribute('height', element.offsetHeight);
-    svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", 
-                       "http://www.w3.org/1999/xlink");
-    element.appendChild(svg);
-  }
-  return svg;
-}
-
-function drawCircle(x, y, radius, color) {
-    var svg = createSVG();
-    var shape = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    shape.setAttributeNS(null, "cx", x);
-    shape.setAttributeNS(null, "cy", y);
-    shape.setAttributeNS(null, "r",  radius);
-    shape.setAttributeNS(null, "fill", color);
-    svg.appendChild(shape);
-}
-
-
-var markerInitialized = false;
-
-function createTriangleMarker() {
-  if (markerInitialized)
-    return;
-  markerInitialized = true;
-  var svg = createSVG();
-  var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-  svg.appendChild(defs);
-
-  var marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-  marker.setAttribute('id', 'triangle');
-  marker.setAttribute('viewBox', '0 0 10 10');
-  marker.setAttribute('refX', '0');
-  marker.setAttribute('refY', '5');
-  marker.setAttribute('markerUnits', 'strokeWidth');
-  marker.setAttribute('markerWidth', '10');
-  marker.setAttribute('markerHeight', '8');
-  marker.setAttribute('orient', 'auto');
-  var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  marker.appendChild(path);
-  path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
-  defs.appendChild(marker);
-}
-
 function drawCurvedLine(x1, y1, x2, y2, color, tension) {
-    var svg = createSVG();
+    var svg = this.createSVG();
     var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
     if (tension<0) {
       var delta = (y2-y1)*tension;
@@ -79,25 +28,13 @@ function drawCurvedLine(x1, y1, x2, y2, color, tension) {
     svg.appendChild(shape);
 }
 
-function drawLine(x1, y1, x2, y2, color, tension) {
-    var svg = createSVG();
-    var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    var delta = 20;
-    var path = "M " + x1 + " " + y1 + " L " + x1 + " " + (y2-delta) + " a " + delta + " " + delta + " 0 0 0 " + delta + " " + delta + " L " + x2 + " " + y2 
-    shape.setAttributeNS(null, "d", path);
-    shape.setAttributeNS(null, "fill", "none");
-    shape.setAttributeNS(null, "stroke", color);
-    shape.setAttributeNS(null, "marker-end", "url(#triangle)");
-    svg.appendChild(shape);
-}
-
 export default class extends Controller {
   static targets = [ "chart" ]
 
   connect() {
     console.log('gantt table')
-    createSVG(this.chartTarget);
-    createTriangleMarker();
+    this.createSVG();
+    this.createTriangleMarker();
 
     let events = document.querySelectorAll(".gantt_event")
     let this_controller = this
@@ -106,6 +43,23 @@ export default class extends Controller {
         this_controller.connectDivs(event.dataset.predecessor, event.id, "blue", 0.2)
       }
     })
+  }
+
+  createSVG(element) {
+    var svg = document.getElementById("svg-canvas");
+    var element = this.chartTarget;
+
+    if ((null == svg) && (element != null)) {
+      svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute('id', 'svg-canvas');
+      svg.setAttribute('style', 'position:absolute;top:0px;left:0px;');
+      svg.setAttribute('width', element.offsetWidth);
+      svg.setAttribute('height', element.offsetHeight);
+      svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", 
+                         "http://www.w3.org/1999/xlink");
+      element.appendChild(svg);
+    }
+    return svg;
   }
 
   findAbsolutePosition(htmlElement) {
@@ -121,6 +75,26 @@ export default class extends Controller {
         "x": x-this.chartTarget.offsetLeft,
         "y": y-this.chartTarget.offsetTop
     };
+  }
+
+  createTriangleMarker() {
+    var svg = this.createSVG();
+    var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    svg.appendChild(defs);
+
+    var marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+    marker.setAttribute('id', 'triangle');
+    marker.setAttribute('viewBox', '0 0 10 10');
+    marker.setAttribute('refX', '0');
+    marker.setAttribute('refY', '5');
+    marker.setAttribute('markerUnits', 'strokeWidth');
+    marker.setAttribute('markerWidth', '10');
+    marker.setAttribute('markerHeight', '8');
+    marker.setAttribute('orient', 'auto');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    marker.appendChild(path);
+    path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+    defs.appendChild(marker);
   }
  
   connectDivs(leftId, rightId, color, tension) {
@@ -141,10 +115,31 @@ export default class extends Controller {
     var width=x2-x1;
     var height = y2-y1;
   
-    drawCircle(x1, y1, 3, color);
-    //drawCircle(x2, y2, 3, color);
+    this.drawCircle(x1, y1, 3, color);
+    //this.drawCircle(x2, y2, 3, color);
     //drawCurvedLine(x1, y1, x2, y2, color, tension);
-    drawLine(x1, y1, x2, y2, color, tension);
+    this.drawLine(x1, y1, x2, y2, color, tension);
   }
 
+  drawCircle(x, y, radius, color) {
+    var svg = this.createSVG();
+    var shape = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    shape.setAttributeNS(null, "cx", x);
+    shape.setAttributeNS(null, "cy", y);
+    shape.setAttributeNS(null, "r",  radius);
+    shape.setAttributeNS(null, "fill", color);
+    svg.appendChild(shape);
+  }
+
+  drawLine(x1, y1, x2, y2, color, tension) {
+    var svg = this.createSVG();
+    var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    var delta = 20;
+    var path = "M " + x1 + " " + y1 + " L " + x1 + " " + (y2-delta) + " a " + delta + " " + delta + " 0 0 0 " + delta + " " + delta + " L " + x2 + " " + y2 
+    shape.setAttributeNS(null, "d", path);
+    shape.setAttributeNS(null, "fill", "none");
+    shape.setAttributeNS(null, "stroke", color);
+    shape.setAttributeNS(null, "marker-end", "url(#triangle)");
+    svg.appendChild(shape);
+  }
 }
