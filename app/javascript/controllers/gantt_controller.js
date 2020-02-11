@@ -79,6 +79,18 @@ function drawCurvedLine(x1, y1, x2, y2, color, tension) {
     svg.appendChild(shape);
 }
 
+function drawLine(x1, y1, x2, y2, color, tension) {
+    var svg = createSVG();
+    var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    var delta = 20;
+    var path = "M " + x1 + " " + y1 + " L " + x1 + " " + (y2-delta) + " a " + delta + " " + delta + " 0 0 0 " + delta + " " + delta + " L " + x2 + " " + y2 
+    shape.setAttributeNS(null, "d", path);
+    shape.setAttributeNS(null, "fill", "none");
+    shape.setAttributeNS(null, "stroke", color);
+    shape.setAttributeNS(null, "marker-end", "url(#triangle)");
+    svg.appendChild(shape);
+}
+
 export default class extends Controller {
   static targets = [ "chart" ]
 
@@ -118,8 +130,8 @@ export default class extends Controller {
     var leftPos = this.findAbsolutePosition(left);
     var x1 = leftPos.x;
     var y1 = leftPos.y;
-    x1 += left.offsetWidth;
-    y1 += (left.offsetHeight / 2);
+    x1 += (left.offsetWidth / 2);
+    y1 += left.offsetHeight;
 
     var rightPos = this.findAbsolutePosition(right);
     var x2 = rightPos.x-8; // minus triangle size
@@ -131,7 +143,8 @@ export default class extends Controller {
   
     drawCircle(x1, y1, 3, color);
     //drawCircle(x2, y2, 3, color);
-    drawCurvedLine(x1, y1, x2, y2, color, tension);
+    //drawCurvedLine(x1, y1, x2, y2, color, tension);
+    drawLine(x1, y1, x2, y2, color, tension);
   }
 
 }
