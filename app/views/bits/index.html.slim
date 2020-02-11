@@ -2,23 +2,19 @@ h4 Bits
 
 - @bits.each do |bit|
   div.tile.tile-centered
+    div.tile-icon
+      - if bit.uri.present?
+        = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer", class: 'btn btn-primary'} do
+          i.icon.icon-bookmark
+      - else
+        = link_to '#', {class: 'btn d-invisible'} do
+          i.icon
     div.tile-content
       div.tile-title = link_to bit.title, bit
       small.tile-subtitle = bit.description
     div.tile-action.flex-center
-      - unless bit.unassigned?
-        = status_icon(bit, {class: 'fix-icon-width'})
-      - else
-        i.fix-icon-width
-      - if bit.uri.present?
-        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer"} do
-          i.material-icons-outlined.fix-icon-width bookmark_border
-      - else
-        i.fix-icon-width
       - if bit.favorite?(user: current_user)
         i.material-icons-outlined.fix-icon-width favorite_border
-      - else
-        i.fix-icon-width
       = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
