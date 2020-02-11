@@ -3,17 +3,17 @@
 
 import { Controller } from "stimulus"
 
-function createSVG() {
+function createSVG(element) {
   var svg = document.getElementById("svg-canvas");
-  if (null == svg) {
+  if ((null == svg) && (element != null)) {
     svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute('id', 'svg-canvas');
-    svg.setAttribute('style', 'position:absolute;top:0px;left:0px');
-    svg.setAttribute('width', document.body.clientWidth);
-    svg.setAttribute('height', document.body.clientHeight);
+    svg.setAttribute('style', 'position:absolute;top:0px;left:0px;');
+    svg.setAttribute('width', element.offsetWidth);
+    svg.setAttribute('height', element.offsetHeight);
     svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", 
                        "http://www.w3.org/1999/xlink");
-    document.body.appendChild(svg);
+    element.appendChild(svg);
   }
   return svg;
 }
@@ -28,43 +28,6 @@ function drawCircle(x, y, radius, color) {
     svg.appendChild(shape);
 }
 
-function findAbsolutePosition(htmlElement) {
-  var x = htmlElement.offsetLeft;
-  var y = htmlElement.offsetTop;
-  for (var x=0, y=0, el=htmlElement; 
-       el != null; 
-       el = el.offsetParent) {
-         x += el.offsetLeft;
-         y += el.offsetTop;
-  }
-  return {
-      "x": x,
-      "y": y
-  };
-}
-
-function connectDivs(leftId, rightId, color, tension) {
-  var left = document.getElementById(leftId);
-  var right = document.getElementById(rightId);
-	
-  var leftPos = findAbsolutePosition(left);
-  var x1 = leftPos.x;
-  var y1 = leftPos.y;
-  x1 += left.offsetWidth;
-  y1 += (left.offsetHeight / 2);
-
-  var rightPos = findAbsolutePosition(right);
-  var x2 = rightPos.x;
-  var y2 = rightPos.y;
-  y2 += (right.offsetHeight / 2);
-
-  var width=x2-x1;
-  var height = y2-y1;
-
-  drawCircle(x1, y1, 3, color);
-  //drawCircle(x2, y2, 3, color);
-  drawCurvedLine(x1, y1, x2, y2, color, tension);
-}
 
 var markerInitialized = false;
 
@@ -117,15 +80,53 @@ function drawCurvedLine(x1, y1, x2, y2, color, tension) {
 }
 
 export default class extends Controller {
-  static targets = [  ]
+  static targets = [ "chart" ]
 
   connect() {
     console.log('gantt table')
-    createSVG();
+    createSVG(this.chartTarget);
     createTriangleMarker();
 
-    connectDivs("bar_0", "bar_1", "blue", 0.2)
-    connectDivs("bar_1", "bar_2", "blue", 0.2)
+    this.connectDivs("bar_0", "bar_1", "blue", 0.2)
+    this.connectDivs("bar_1", "bar_2", "blue", 0.2)
+  }
+
+  findAbsolutePosition(htmlElement) {
+    var x = htmlElement.offsetLeft;
+    var y = htmlElement.offsetTop;
+    for (var x=0, y=0, el=htmlElement; 
+         el != null; 
+         el = el.offsetParent) {
+           x += el.offsetLeft;
+           y += el.offsetTop;
+    }
+    return {
+        "x": x-this.chartTarget.offsetLeft,
+        "y": y-this.chartTarget.offsetTop
+    };
+  }
+ 
+  connectDivs(leftId, rightId, color, tension) {
+    var left = document.getElementById(leftId);
+    var right = document.getElementById(rightId);
+	
+    var leftPos = this.findAbsolutePosition(left);
+    var x1 = leftPos.x;
+    var y1 = leftPos.y;
+    x1 += left.offsetWidth;
+    y1 += (left.offsetHeight / 2);
+
+    var rightPos = this.findAbsolutePosition(right);
+    var x2 = rightPos.x-8; // minus triangle size
+    var y2 = rightPos.y;
+    y2 += (right.offsetHeight / 2);
+
+    var width=x2-x1;
+    var height = y2-y1;
+  
+    drawCircle(x1, y1, 3, color);
+    //drawCircle(x2, y2, 3, color);
+    drawCurvedLine(x1, y1, x2, y2, color, tension);
   }
 
 }

@@ -6,7 +6,7 @@ div
     = link_to "Year", gantt_path(start_date: @start_date, period: 'year'), class: "btn #{(@period=='year') ? 'btn-primary' : ''}"
 br
 div data-controller="gantt"
-  div.gantt style='width: 2048px'
+  div.gantt style='width: 2048px' data-target="gantt.chart"
     div.gantt__row.gantt__row--months
       div.gantt__row-first = @unit
       - @units.each do |unit|
