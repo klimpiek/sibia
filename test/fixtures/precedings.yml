@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  predecessor: one
+  successor: one
+
+two:
+  predecessor: two
+  successor: two

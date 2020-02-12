@@ -12,8 +12,15 @@ class Bit < ApplicationRecord
 
   belongs_to :bookmarking, polymorphic: true, optional: true
 
+  # For one predecessor per bit
   belongs_to :predecessor, class_name: 'Bit', optional: true, inverse_of: :successors
   has_many :successors, class_name: 'Bit', foreign_key: 'predecessor_id', inverse_of: :predecessor
+
+  # For many-to-many depencendies
+  has_many :precedings, class_name: 'Preceding', foreign_key: :successor_id, 
+                        inverse_of: :successor, dependent: :destroy
+  has_many :succeedings, class_name: 'Preceding', foreign_key: :predecessor_id,
+                         inverse_of: :predecessor, dependent: :destroy
 
   enum status: { unassigned: 0, todo: 1, ongoing: 8, waiting: 32, completed: 64 }
 
