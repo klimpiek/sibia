@@ -83,20 +83,23 @@ export default class extends Controller {
     y1 += left.offsetHeight;
 
     var rightPos = this.findAbsolutePosition(right);
-    var x2 = rightPos.x-8; // minus triangle size
+    var x2 = rightPos.x;
     var y2 = rightPos.y;
-    y2 += (right.offsetHeight / 2);
 
     var width=x2-x1;
     var height=y2-y1;
   
-    this.drawCircle(x1, y1, 3, color);
-    //this.drawCircle(x2, y2, 3, color);
     if (x1 < x2) {
+      x2 -= 8 // minus triangle size
+      y2 += (right.offsetHeight / 2);
+      this.drawCircle(x1, y1, 3, color);
+      //this.drawCircle(x2, y2, 3, color);
       this.drawLine(x1, y1, x2, y2, color, tension);
     } else {
-      x2 = x2+8*1;
-      y2 = y2-8*1;
+      x2 += (right.offsetWidth / 2);
+      y2 -= 8;
+      this.drawCircle(x1, y1, 3, color);
+      //this.drawCircle(x2, y2, 3, color);
       this.drawCurvedLine(x1, y1, x2, y2, color, -1*tension);
     }
   }
