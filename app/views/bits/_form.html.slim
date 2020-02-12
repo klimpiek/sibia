@@ -72,26 +72,23 @@
       div.input-group
         = f.label :due_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :due_at, class: 'form-input', data: { controller: 'datetime-picker' }
-        div.has-icon-right.input-group-btn style="width: 30%"
+        div.input-group-btn style="width: 30%"
           = f.time_zone_select :due_at_time_zone, nil, { default: @bit.due_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
-          i.form-icon.icon.icon-location.hide-md
 
   div.form-group
     - Time.use_zone(@bit.begin_at_time_zone || current_user.time_zone) do
       div.input-group
         = f.label :begin_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :begin_at, class: 'form-input', data: { controller: 'datetime-picker' }
-        div.has-icon-right.input-group-btn style="width: 30%"
+        div.input-group-btn style="width: 30%"
           = f.time_zone_select :begin_at_time_zone, nil, { default: @bit.begin_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
-          i.form-icon.icon.icon-location.hide-md
   div.form-group
     - Time.use_zone(@bit.end_at_time_zone || current_user.time_zone) do
       div.input-group.input-group-btn
         = f.label :end_at, class: 'form-label input-group-addon', style: "width: 6em;"
         = f.text_field :end_at, class: 'form-input', data: { controller: 'datetime-picker' }
-        div.has-icon-right.input-group-btn style="width: 30%"
+        div.input-group-btn style="width: 30%"
           = f.time_zone_select :end_at_time_zone, nil, { default: @bit.end_at_time_zone || current_user.time_zone }, { class: 'btn', style: "width: 100%" }
-          i.form-icon.icon.icon-location.hide-md
     = f.label :all_day, class: 'form-switch', data: {action: 'click->bit-form#allDayToggle'}
       = f.check_box :all_day, data: {action: 'change->bit-form#allDayToggle', target: 'bit-form.allDayCheckbox'}
       i.form-icon
