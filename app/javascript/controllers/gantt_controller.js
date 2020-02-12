@@ -3,31 +3,6 @@
 
 import { Controller } from "stimulus"
 
-function drawCurvedLine(x1, y1, x2, y2, color, tension) {
-    var svg = this.createSVG();
-    var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    if (tension<0) {
-      var delta = (y2-y1)*tension;
-      var hx1=x1;
-      var hy1=y1-delta;
-      var hx2=x2;
-      var hy2=y2+delta;
-      var path = "M " + x1 + " " + y1 + " C " + hx1 + " " + hy1 + " "  + hx2 + " " + hy2 + " " + x2 + " " + y2;
-    } else {
-      var delta = (x2-x1)*tension;
-      var hx1=x1+delta;
-      var hy1=y1;
-      var hx2=x2-delta;
-      var hy2=y2;
-      var path = "M "  + x1 + " " + y1 + " C " + hx1 + " " + hy1 + " "  + hx2 + " " + hy2 + " " + x2 + " " + y2;
-    }
-    shape.setAttributeNS(null, "d", path);
-    shape.setAttributeNS(null, "fill", "none");
-    shape.setAttributeNS(null, "stroke", color);
-    shape.setAttributeNS(null, "marker-end", "url(#triangle)");
-    svg.appendChild(shape);
-}
-
 export default class extends Controller {
   static targets = [ "chart" ]
 
@@ -113,12 +88,17 @@ export default class extends Controller {
     y2 += (right.offsetHeight / 2);
 
     var width=x2-x1;
-    var height = y2-y1;
+    var height=y2-y1;
   
     this.drawCircle(x1, y1, 3, color);
     //this.drawCircle(x2, y2, 3, color);
-    //drawCurvedLine(x1, y1, x2, y2, color, tension);
-    this.drawLine(x1, y1, x2, y2, color, tension);
+    if (x1 < x2) {
+      this.drawLine(x1, y1, x2, y2, color, tension);
+    } else {
+      x2 = x2+8*1;
+      y2 = y2-8*1;
+      this.drawCurvedLine(x1, y1, x2, y2, color, -1*tension);
+    }
   }
 
   drawCircle(x, y, radius, color) {
@@ -136,6 +116,31 @@ export default class extends Controller {
     var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
     var delta = 20;
     var path = "M " + x1 + " " + y1 + " L " + x1 + " " + (y2-delta) + " a " + delta + " " + delta + " 0 0 0 " + delta + " " + delta + " L " + x2 + " " + y2 
+    shape.setAttributeNS(null, "d", path);
+    shape.setAttributeNS(null, "fill", "none");
+    shape.setAttributeNS(null, "stroke", color);
+    shape.setAttributeNS(null, "marker-end", "url(#triangle)");
+    svg.appendChild(shape);
+  }
+
+  drawCurvedLine(x1, y1, x2, y2, color, tension) {
+    var svg = this.createSVG();
+    var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    if (tension<0) {
+      var delta = (y2-y1)*tension;
+      var hx1=x1;
+      var hy1=y1-delta;
+      var hx2=x2;
+      var hy2=y2+delta;
+      var path = "M " + x1 + " " + y1 + " C " + hx1 + " " + hy1 + " "  + hx2 + " " + hy2 + " " + x2 + " " + y2;
+    } else {
+      var delta = (x2-x1)*tension;
+      var hx1=x1+delta;
+      var hy1=y1;
+      var hx2=x2-delta;
+      var hy2=y2;
+      var path = "M "  + x1 + " " + y1 + " C " + hx1 + " " + hy1 + " "  + hx2 + " " + hy2 + " " + x2 + " " + y2;
+    }
     shape.setAttributeNS(null, "d", path);
     shape.setAttributeNS(null, "fill", "none");
     shape.setAttributeNS(null, "stroke", color);
