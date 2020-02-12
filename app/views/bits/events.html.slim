@@ -9,9 +9,12 @@ h4 Events
         = status_icon(bit)
     div.tile-content
       div.tile-title = link_to bit.title, bit
-      small.tile-subtitle = bit.description
+      small.tile-subtitle.hide-md = bit.description
+      small.tile-subtitle.show-md
+        - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
+          = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
     div.tile-action.flex-center
-      span
+      span.hide-md
         - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
           = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
       i.fix-icon-width
