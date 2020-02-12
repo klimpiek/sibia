@@ -1,18 +1,10 @@
 module BitsHelper
-  def tag_autocomplete_url(bit)
-    if bit.persisted?
-      tags_bit_path(bit)
-    else
-      tags_bits_path
-    end
-  end
-
-  def parent_autocomplete_url(bit)
-    if bit.persisted?
-      parents_bit_path(bit)
-    else
-      parents_bits_path
-    end
+  [:tag, :parent].each do |m|
+    class_eval %Q{
+      def #{m}_autocomplete_url(bit)
+        bit.persisted? ? #{m}s_bit_path(bit) : #{m}s_bits_path
+      end
+    }
   end
 
   def status_icon(bit, options = {})
