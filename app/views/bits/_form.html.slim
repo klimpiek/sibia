@@ -40,18 +40,18 @@
       button.btn.input-group-btn.btn-sm data-action='click->tags-picker#add' Add 
       button.btn.input-group-btn.btn-sm data-action='click->tags-picker#clear' Clear 
 
-    div data-controller="parents-picker" data-parents-picker-url=parent_autocomplete_url(@bit) data-parents-picker-min-length='-1' data-action="loadstart->parents-picker#loadstart autocomplete.change->parents-picker#hintError" 
-      div.form-group data-target='parents-picker.parentGroup' 
+    div data-controller="parent-picker" data-parent-picker-url=parent_autocomplete_url(@bit) data-parent-picker-min-length='-1' data-action="loadstart->parent-picker#loadstart autocomplete.change->parent-picker#hintError"
+      div.form-group data-target='parent-picker.parentGroup'
         div.input-group
           = f.label :parent, class: 'form-label input-group-addon'
-          = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parents-picker.input', action: 'focus->parents-picker#focus blur->parents-picker#blur'}
+          = text_field_tag 'autocomplete_parent', @bit.parent.try(:title), class: 'form-input', data: {target: 'parent-picker.input', action: 'focus->parent-picker#focus blur->parent-picker#blur'}
           / = f.collection_select :parent_id, [Bit.find_all_by_generation(0), Bit.find_all_by_generation(1)].flatten.compact.delete_if { |bit| bit == @bit }, :id, :title, {prompt: true}, {class: "form-select d-hide", style: "max-width: 5em;"}
-          button.btn.input-group-btn data-action='click->parents-picker#remove' Remove 
+          button.btn.input-group-btn data-action='click->parent-picker#remove' Remove
         / anchor menu properly without be affected by appearing of hint below
         div
-          ul.menu data-target="parents-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
-        p.form-input-hint.d-hide data-target='parents-picker.hint' Invalid parent given. It will not be saved.
-      = f.hidden_field :parent_id, data: {target: 'parents-picker.hidden'}
+          ul.menu data-target="parent-picker.results" style='position: absolute; max-height: 50vh; overflow-y: auto;'
+        p.form-input-hint.d-hide data-target='parent-picker.hint' Invalid parent given. It will not be saved.
+      = f.hidden_field :parent_id, data: {target: 'parent-picker.hidden'}
 
   div.form-group
     = f.submit nil, {class: 'btn'}
