@@ -2,11 +2,8 @@ h4 Events
 
 - @bits.each do |bit|
   div.tile.tile-centered
-    div.tile-icon.flex-center
-      - if bit.unassigned?
-        i.material-icons-outlined.d-invisible check_circle
-      - else
-        = status_icon(bit)
+    div.tile-icon
+      = status_icon(bit)
     div.tile-content
       div.tile-title = link_to bit.title, bit, title: bit.description
       small.tile-subtitle.hide-md = bit.description

@@ -12,7 +12,7 @@ ul.tab.tab-block
 div.pt-2
 - @bits.each do |bit|
   div.tile.tile-centered
-    div.tile-icon.flex-center
+    div.tile-icon
       = status_icon(bit)
     div.tile-content
       div.tile-title title=bit.description = link_to bit.title, bit

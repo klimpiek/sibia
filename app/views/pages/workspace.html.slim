@@ -2,7 +2,7 @@ div.columns
   div.column.col-12
     h4 Workspace
 
-div.columns
+div.columns data-controller='workspace'
   div.colum.col-8.col-sm-12
     - @roots.each_with_index do |bit, index|
       div.accordion
@@ -30,15 +30,22 @@ div.columns
       == pagy_spectre_nav(@pagy) if @pagy.pages > 1
   div.column.col-4.col-sm-12
     div.panel
-      div.panel-header.text-bold Todos
-      div.panel-body
+      div.panel-nav
+        ul.tab.tab-block
+          li.tab-item.active data-target='workspace.tasksNav'
+            = link_to "Tasks", '#', data: {action: 'workspace#tasksSelected'}
+          li.tab-item data-target='workspace.calendarNav'
+            = link_to "Calendar", '#', data: {action: 'workspace#calendarSelected'}
+      div.panel-body data-target='workspace.tasks'
         - @tasks.each do |todo|
           div.tile.tile-centered.pt-2
+            div.tile-icon
+              = status_icon(todo)
             div.tile-content
               div.tile-title = link_to todo.title, todo
               - if todo.due_at.present?
                 small.tile-subtitle
                   = "#{due_in_time_ago(todo)} at #{due_at_with_optional_time_zone(todo)}"
-            div.tile-action
-              = status_icon(todo)
+      div.panel-body.d-none data-target='workspace.calendar' data-action='workspace#calendarSelected'
+        | Calendar
       div.panel-footer
