@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ 'tasks', 'calendar', 'tasksNav', 'calendarNav' ]
+  static targets = [ 'tasks', 'events', 'tasksNav', 'eventsNav' ]
 
   connect() {
     console.log('workspace controller')
@@ -11,21 +11,21 @@ export default class extends Controller {
     console.log(event.currentTarget)
     event.preventDefault()
     this.tasksTarget.classList.remove('d-none')
-    this.calendarTarget.classList.add('d-none')
+    this.eventsTarget.classList.add('d-none')
 
-    this.calendarNavTarget.classList.remove('active')
+    this.eventsNavTarget.classList.remove('active')
     this.tasksNavTarget.classList.add('active')
     event.currentTarget.blur()
   }
 
-  calendarSelected(event) {
+  eventsSelected(event) {
     event.preventDefault()
     console.log(event.currentTarget)
     this.tasksTarget.classList.add('d-none')
-    this.calendarTarget.classList.remove('d-none')
+    this.eventsTarget.classList.remove('d-none')
 
     this.tasksNavTarget.classList.remove('active')
-    this.calendarNavTarget.classList.add('active')
+    this.eventsNavTarget.classList.add('active')
     event.currentTarget.blur()
   }
 }
