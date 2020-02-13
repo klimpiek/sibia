@@ -19,20 +19,12 @@ div.pt-2
       small.tile-subtitle.hide-md = bit.description
       - if bit.due_at.present?
         small.tile-subtitle
-          | due at
-          =< bit.due_at.in_time_zone(bit.due_at_time_zone || current_user.time_zone).to_formatted_s(:short)
-          =< "(#{bit.due_at_time_zone || current_user.time_zone})"
+          = "due at #{due_at_with_time_zone(bit)}"
     div.tile-action.flex-center
       span.hide-md
-        - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
-          = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
+        = event_with_time(bit)
       i.fix-icon-width
-      - if bit.uri.present?
-        = link_to bit.uri, {target: '_blank', rel: "noopener noreferrer", class: 'btn btn-primary'} do
-          i.icon.icon-bookmark
-      - else
-        = link_to '#', {class: 'btn d-invisible'} do
-          i.icon
+      = link_with_bookmark_icon(bit)
       = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
