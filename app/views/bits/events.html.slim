@@ -8,13 +8,11 @@ h4 Events
       - else
         = status_icon(bit)
     div.tile-content
-      div.tile-title = link_to bit.title, bit
+      div.tile-title = link_to bit.title, bit, title: bit.description
       small.tile-subtitle.hide-md = bit.description
-      small.tile-subtitle.show-md
-        = event_with_time(bit)
+      small.tile-subtitle.show-md = event_with_time(bit)
     div.tile-action.flex-center
-      span.hide-md
-        = event_with_time(bit)
+      span.hide-md = event_with_time(bit)
       i.fix-icon-width
       = link_with_bookmark_icon(bit)
       = link_to edit_bit_path(bit), {class: 'btn btn-link'} do

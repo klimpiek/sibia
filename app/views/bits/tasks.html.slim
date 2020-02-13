@@ -15,11 +15,10 @@ div.pt-2
     div.tile-icon.flex-center
       = status_icon(bit)
     div.tile-content
-      div.tile-title title=bit.status = link_to bit.title, bit
-      small.tile-subtitle.hide-md = bit.description
+      div.tile-title title=bit.description = link_to bit.title, bit
       - if bit.due_at.present?
         small.tile-subtitle
-          = "due at #{due_at_with_time_zone(bit)}"
+          = "#{due_in_time_ago(bit)} at #{due_at_with_optional_time_zone(bit)}"
     div.tile-action.flex-center
       span.hide-md
         = event_with_time(bit)

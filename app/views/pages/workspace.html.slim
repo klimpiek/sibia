@@ -36,6 +36,9 @@ div.columns
           div.tile.tile-centered.pt-2
             div.tile-content
               div.tile-title = link_to todo.title, todo
+              - if todo.due_at.present?
+                small.tile-subtitle
+                  = "#{due_in_time_ago(todo)} at #{due_at_with_optional_time_zone(todo)}"
             div.tile-action
               = status_icon(todo)
       div.panel-footer
