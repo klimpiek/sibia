@@ -9,24 +9,24 @@ table data-controller='table' data-target='table.data'
       th Event
       th Tags
   tbody
-    - @bits.each do |bit|
+    - @ownerships.each do |ownership|
       tr
-        td = link_to bit.title, bit, title: bit.description
+        td = link_to ownership.bit.title, ownership.bit, title: ownership.bit.description
         td
-          - if bit.favorite?(user: current_user)
+          - if ownership.favorite.present?
             i.material-icons-outlined favorite_border
         td 
-          - if bit.uri.present?
-            = link_to bit.uri, {target: '_blank', rel:"noopener noreferrer"} do
+          - if ownership.bit.uri.present?
+            = link_to ownership.bit.uri, {target: '_blank', rel:"noopener noreferrer"} do
               i.icon.icon-bookmark
         td
-          - if (bit.unassigned? == false)
-            = status_label(bit)
+          - if (ownership.bit.unassigned? == false)
+            = status_label(ownership.bit)
         td
-          - if bit.due_at.present?
-            =< bit.due_at.try(:in_time_zone, bit.due_at_time_zone || current_user.time_zone).strftime("%b %e, %Y %k:%M")
+          - if ownership.bit.due_at.present?
+            =< ownership.bit.due_at.try(:in_time_zone, ownership.bit.due_at_time_zone || current_user.time_zone).strftime("%b %e, %Y %k:%M")
         td
-          - if (bit.begin_at.present? && bit.end_at.present?)
-            - Time.use_zone(bit.begin_at_time_zone || current_user.time_zone) do
-              = DateRangeFormatter.format(bit.begin_at, bit.end_at, (bit.all_day ? :default : :with_time))
-        td = bit.tag_list(user: current_user)
+          - if (ownership.bit.begin_at.present? && ownership.bit.end_at.present?)
+            - Time.use_zone(ownership.bit.begin_at_time_zone || current_user.time_zone) do
+              = DateRangeFormatter.format(ownership.bit.begin_at, ownership.bit.end_at, (ownership.bit.all_day ? :default : :with_time))
+        td = ownership.tag_list

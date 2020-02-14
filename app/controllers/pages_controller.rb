@@ -34,7 +34,7 @@ class PagesController < ApplicationController
       @marker = DateTime.current.end_of_day
     end
 
-    @events = current_user.bits.events.occur_in(@date_range).order("begin_at ASC")
+    @events = current_user.bits.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
     @tasks = current_user.bits.tasks.due_in(@date_range)
 
   end
@@ -102,7 +102,7 @@ class PagesController < ApplicationController
     Time.use_zone(current_user.time_zone) do
       @events = current_user.bits.events.occur_in(DateTime.current.beginning_of_day..DateTime.current.end_of_week).order('begin_at ASC').limit(20)
     end
-    @roots = current_user.bits.roots.recent_first
+    @roots = current_user.bits.roots.includes(:children, children: [:children]).recent_first
     @pagy, @roots = pagy(@roots, items: 12)
   end
 

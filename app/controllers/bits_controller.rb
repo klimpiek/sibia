@@ -3,7 +3,8 @@ class BitsController < ApplicationController
   before_action :set_ownership, only: [:edit, :update]
 
   def table
-    @bits = current_user.bits.recent_first
+    # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
+    @ownerships = current_user.ownerships.includes(:bit).order('bits.updated_at DESC')
   end
 
   # only for autocomplete parent. @bit could be nil (new bit)
@@ -60,15 +61,17 @@ class BitsController < ApplicationController
   end
 
   def links
-    @bits = current_user.bits.links.recent_first
-    @pagy, @bits = pagy(@bits, items: 12)
+    # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
+    @ownerships = current_user.ownerships.includes(:bit).where.not(bits: {uri: ''}).order('bits.updated_at DESC')
+    @pagy, @ownerships = pagy(@ownerships, items: 12)
   end
 
   # GET /bits
   # GET /bits.json
   def index
-    @bits = current_user.bits.recent_first
-    @pagy, @bits = pagy(@bits, items: 12)
+    # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
+    @ownerships = current_user.ownerships.includes(:bit).order('bits.updated_at DESC')
+    @pagy, @ownerships = pagy(@ownerships, items: 12)
   end
 
   # GET /bits/1

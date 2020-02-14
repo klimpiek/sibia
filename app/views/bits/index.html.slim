@@ -1,16 +1,16 @@
 h4 Bits
 
-- @bits.each do |bit|
+- @ownerships.each do |ownership|
   div.tile.tile-centered
     div.tile-icon
-      = link_with_bookmark_icon(bit)
+      = link_with_bookmark_icon(ownership.bit)
     div.tile-content
-      div.tile-title = link_to bit.title, bit
-      small.tile-subtitle = bit.description
+      div.tile-title = link_to ownership.bit.title, ownership.bit
+      small.tile-subtitle = ownership.bit.description
     div.tile-action.flex-center
-      - if bit.favorite?(user: current_user)
+      - if ownership.favorite.present?
         i.material-icons-outlined.fix-icon-width favorite_border
-      = link_to edit_bit_path(bit), {class: 'btn btn-link'} do
+      = link_to edit_bit_path(ownership.bit), {class: 'btn btn-link'} do
         i.icon.icon-more-vert
   div.divider
 
