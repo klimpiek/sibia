@@ -17,11 +17,12 @@ html
       div.toast.toast-primary data-controller='toast'
         button.btn.btn-clear.float-right data-action='toast#hide'
         = notice
+        div.pt-2
     - if alert.present?
       div.toast.toast-error data-controller='toast'
         button.btn.btn-clear.float-right data-action='toast#hide'
         = alert
-    div.pt-2
+        div.pt-2
     div.container
       div.columns
         div.column.col-sm-12.col-md-3.col-2.col-ml-auto
