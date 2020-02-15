@@ -7,16 +7,12 @@ class PagesController < ApplicationController
     case params[:period].try(:downcase)
     when 'week'
       @period = 'week'
-      @prev_date = @start_date-1.week
-      @next_date = @start_date+1.week
       @date_range = (@start_date.beginning_of_week..@start_date.end_of_week)
       @unit = (1..7).to_a
       @marker = DateTime.current.cwday
     when 'year'
       @period = 'year'
       @unit = 'week'
-      @prev_date = @start_date-1.year
-      @next_date = @start_date+1.year
       @date_range = (@start_date.beginning_of_day-4.weeks..@start_date.end_of_day+48.weeks)
       @units = (-4..48).collect do |diff| 
         date = @start_date.end_of_day+diff.send(:weeks)
@@ -27,8 +23,6 @@ class PagesController < ApplicationController
     else
       @period = 'month'
       @unit = 'day'
-      @prev_date = @start_date-1.month
-      @next_date = @start_date+1.month
       @date_range = (@start_date.beginning_of_day-7.days..@start_date.end_of_day+45.days)
       @units = @date_range.collect do |date| {date: date.end_of_day, unit: date.day} end
       @marker = DateTime.current.end_of_day
