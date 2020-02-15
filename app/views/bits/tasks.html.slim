@@ -1,7 +1,4 @@
-- if content_for?(:content_head)
-  == content_for(:content_head)
-- else
-  h4 Tasks
+h4 Tasks
 
 ul.tab.tab-block
   li.tab-item class=(params[:query].downcase == 'ongoing' ? 'active' : '')
