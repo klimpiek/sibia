@@ -1,54 +1,9 @@
 class PagesController < ApplicationController
   include Gantt
+  include Calendar
+  include Agenda
 
   skip_before_action :authenticate_user!, only: [:home, :help]
-
-  def gantt
-    @start_date = start_date
-    set_gantt(params[:period].try(:downcase), @start_date)
-
-    @events = current_user.bits.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
-    @tasks = current_user.bits.tasks.due_in(@date_range)
-
-  end
-
-  def calendar
-    @start_date = start_date
-
-    case params[:selection].try(:downcase)
-    when 'week'
-      @user_selection = 'week'
-      @period = 'week'
-      @period_count = 1
-      @prev_date = @start_date-1.week
-      @next_date = @start_date+1.week
-      @date_range = (@start_date.beginning_of_week..@start_date.end_of_week)
-    when 'quarter'
-      @user_selection = 'quarter'
-      @period = 'month'
-      @period_count = 3
-      @prev_date = @start_date-1.month
-      @next_date = @start_date+1.month
-      @date_range = (@start_date.beginning_of_month.beginning_of_week..(@start_date+3.months).end_of_week)
-    when 'year'
-      @user_selection = 'year'
-      @period = 'year'
-      @period_count = 1
-      @prev_date = @start_date-1.year
-      @next_date = @start_date+1.year
-      @date_range = (@start_date.beginning_of_year.beginning_of_week..@start_date.end_of_year.end_of_week)
-    else
-      @user_selection = 'month'
-      @period = 'month'
-      @period_count = 1
-      @prev_date = @start_date-1.month
-      @next_date = @start_date+1.month
-      @date_range = (@start_date.beginning_of_month.beginning_of_week..@start_date.end_of_month.end_of_week)
-    end
-
-    @events = current_user.bits.events.occur_in(@date_range)
-    @tasks = current_user.bits.tasks.due_in(@date_range)
-  end
 
   def tags
     @tags = current_user.tags
@@ -92,17 +47,27 @@ class PagesController < ApplicationController
   def vue
   end
 
+  def gantt
+    @start_date = start_date
+    set_gantt(params[:period].try(:downcase), @start_date)
+
+    @events = current_user.bits.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
+  end
+
+  def calendar
+    @start_date = start_date
+    set_calendar(params[:selection].try(:downcase), @start_date)
+
+    @events = current_user.bits.events.occur_in(@date_range)
+  end
+
   def agenda
     @start_date = start_date
-    @prev_date = @start_date-1.week
-    @next_date = @start_date+1.week
-    @date_range = (@start_date.beginning_of_week..@start_date.end_of_week)
+    set_agenda(@start_date)
 
     @events = current_user.bits.events.occur_in(@date_range)
     @all_day_events = @events.where(all_day: true)
     @events_with_time = @events.where(all_day: false)
-
-    @tasks = current_user.bits.tasks.due_in(@date_range)
   end
 
   private
