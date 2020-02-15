@@ -2,7 +2,7 @@ div.columns
   div.column.col-12
     h4 Workspace
 
-div.columns data-controller='workspace'
+div.columns
   div.colum.col-8.col-lg-7.col-sm-12
     - @roots.each_with_index do |bit, index|
       div.accordion
@@ -29,31 +29,4 @@ div.columns data-controller='workspace'
     div
       == pagy_spectre_nav(@pagy) if @pagy.pages > 1
   div.column.col-4.col-lg-5.col-sm-12
-    div.panel
-      div.panel-nav
-        ul.tab.tab-block
-          li.tab-item.active data-target='workspace.tasksNav'
-            = link_to "Tasks", '#', data: {action: 'workspace#tasksSelected'}
-          li.tab-item data-target='workspace.eventsNav'
-            = link_to "Events", '#', data: {action: 'workspace#eventsSelected'}
-      div.panel-body data-target='workspace.tasks'
-        - @tasks.each do |task|
-          div.tile.tile-centered.pt-2
-            div.tile-icon
-              = status_icon(task)
-            div.tile-content
-              div.tile-title = link_to task.title, task
-              - if task.due_at.present?
-                small.tile-subtitle
-                  = "#{due_in_time_ago(task)} at #{due_at_with_optional_time_zone(task)}"
-      div.panel-body.d-none data-target='workspace.events' data-action='workspace#eventsSelected'
-        - @events.each do |event|
-          div.tile.tile-centered.pt-2
-            div.tile-icon
-              = status_icon(event)
-            div.tile-content
-              div.tile-title = link_to event.title, event
-              - if event.begin_at.present?
-                small.tile-subtitle
-                  = event_with_time(event)
-      div.panel-footer
+    == render partial: 'pages/workspace_sidebar', locals: {tasks: @tasks, events: @events}
