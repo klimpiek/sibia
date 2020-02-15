@@ -26,37 +26,36 @@ html
     div.container
       div.columns
         div.column.col-sm-12.col-md-3.col-2.col-ml-auto
-          - if user_signed_in?
-            div.dropdown.dropdown-right.float-right.show-sm
-              button.btn.btn-link.dropdown-toggle tabindex="0"
-                i.icon.icon-menu
-              ul.menu
-                li.menu-item = link_to 'New Bit', new_bit_path, {class: 'active'}
-                li.divider
-                li.menu-item = link_to 'Workspace', workspace_path
-                li.menu-item = link_to 'Bits', bits_path
-                li.menu-item = link_to 'Favorites', favorites_path
-                li.menu-item = link_to 'Links', links_path
-                li.menu-item = link_to 'Table', table_path
-                li.menu-item = link_to 'Tasks', tasks_path(query: 'ongoing')
-                li.menu-item = link_to 'Events', events_path
-                li.menu-item = link_to 'Calendar', calendar_path
-                li.menu-item = link_to 'Gantt', gantt_path
-                li.divider
-                li.menu-item = link_to 'Search', advanced_search_path
-                li.menu-item = link_to 'Tags', tags_path
-                li.divider
-                li.menu-item = link_to 'Dashboard', dashboard_path
-                li.menu-item = link_to 'Profile', profile_user_path
-                li.menu-item = link_to 'Help', help_path
-                li.divider
-                li.menu-item = link_to 'Logout', destroy_user_session_path, method: :delete
           header.navbar
             section.navbar-section style="justify-content: space-between"
               = link_to root_path, class: 'navbar-brand brand-font' do
                 | klim
                 strong piek
               - if user_signed_in?
+                div.dropdown.dropdown-right.float-right.show-sm
+                  button.btn.btn-link.dropdown-toggle tabindex="0"
+                    i.icon.icon-menu
+                  ul.menu
+                    li.menu-item = link_to 'New Bit', new_bit_path, {class: 'active'}
+                    li.divider
+                    li.menu-item = link_to 'Workspace', workspace_path
+                    li.menu-item = link_to 'Bits', bits_path
+                    li.menu-item = link_to 'Favorites', favorites_path
+                    li.menu-item = link_to 'Links', links_path
+                    li.menu-item = link_to 'Table', table_path
+                    li.menu-item = link_to 'Tasks', tasks_path(query: 'ongoing')
+                    li.menu-item = link_to 'Events', events_path
+                    li.menu-item = link_to 'Calendar', calendar_path
+                    li.menu-item = link_to 'Gantt', gantt_path
+                    li.divider
+                    li.menu-item = link_to 'Search', advanced_search_path
+                    li.menu-item = link_to 'Tags', tags_path
+                    li.divider
+                    li.menu-item = link_to 'Dashboard', dashboard_path
+                    li.menu-item = link_to 'Profile', profile_user_path
+                    li.menu-item = link_to 'Help', help_path
+                    li.divider
+                    li.menu-item = link_to 'Logout', destroy_user_session_path, method: :delete
               - else
                 div.show-sm
                   = link_to 'Login', new_user_session_path, {class: 'btn'}
