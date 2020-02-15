@@ -1,32 +1,11 @@
 class PagesController < ApplicationController
+  include Gantt
+
   skip_before_action :authenticate_user!, only: [:home, :help]
 
   def gantt
     @start_date = start_date
-
-    case params[:period].try(:downcase)
-    when 'week'
-      @period = 'week'
-      @date_range = (@start_date.beginning_of_week..@start_date.end_of_week)
-      @unit = (1..7).to_a
-      @marker = DateTime.current.cwday
-    when 'year'
-      @period = 'year'
-      @unit = 'week'
-      @date_range = (@start_date.beginning_of_day-4.weeks..@start_date.end_of_day+48.weeks)
-      @units = (-4..48).collect do |diff| 
-        date = @start_date.end_of_day+diff.send(:weeks)
-        unit = date.cweek
-        {date: date, unit: unit}
-      end
-      @marker = DateTime.current.end_of_day
-    else
-      @period = 'month'
-      @unit = 'day'
-      @date_range = (@start_date.beginning_of_day-7.days..@start_date.end_of_day+45.days)
-      @units = @date_range.collect do |date| {date: date.end_of_day, unit: date.day} end
-      @marker = DateTime.current.end_of_day
-    end
+    set_gantt(params[:period].try(:downcase), @start_date)
 
     @events = current_user.bits.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
     @tasks = current_user.bits.tasks.due_in(@date_range)
