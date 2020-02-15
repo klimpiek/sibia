@@ -1,14 +1,18 @@
-h4 Tasks
+- if content_for?(:content_head)
+  == content_for(:content_head)
+- else
+  h4 Tasks
 
 ul.tab.tab-block
   li.tab-item class=(params[:query].downcase == 'ongoing' ? 'active' : '')
-    = link_to "Ongoing", tasks_path(query: 'ongoing')
+    = link_to "Ongoing", {action: :tasks, query: :ongoing}
   li.tab-item class=(params[:query].downcase == 'completed' ? 'active' : '')
-    = link_to "Completed", tasks_path(query: 'completed')
+    = link_to "Completed", {action: :tasks, query: :completed}
   li.tab-item class=(params[:query].downcase == 'waiting' ? 'active' : '')
-    = link_to "Waiting", tasks_path(query: 'Waiting')
+    = link_to "Waiting", {action: :tasks, query: :waiting}
   li.tab-item class=(params[:query].downcase == 'all' ? 'active' : '')
-    = link_to "All", tasks_path(query: 'All')
+    = link_to "All", {action: :tasks, query: :all}
+
 div.pt-2
 - @bits.each do |bit|
   div.tile.tile-centered
