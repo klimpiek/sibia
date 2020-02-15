@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
-  include Gantt
-  include Calendar
-  include Agenda
+  include Events
 
   skip_before_action :authenticate_user!, only: [:home, :help]
 
@@ -69,17 +67,5 @@ class PagesController < ApplicationController
     @all_day_events = @events.where(all_day: true)
     @events_with_time = @events.where(all_day: false)
   end
-
-  private
-
-    def start_date
-      Time.use_zone(current_user.time_zone) do
-        if params[:start_date].present?
-          date = Time.zone.parse(params[:start_date]).to_datetime
-        else
-          date = DateTime.current
-        end
-      end
-    end
 
 end
