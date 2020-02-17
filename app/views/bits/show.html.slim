@@ -18,7 +18,8 @@ div.card
       - tags.each do |tag|
         span.chip = tag
   div.card-body
-    == @markdown
+    div.bg-gray
+      == @markdown
     - if @bit.uri.present?
       div.chip
         = link_to @bit.uri, {title: @bit.uri, target: '_blank', rel: "noopener noreferrer"} do
@@ -41,7 +42,7 @@ div.card
             div.hide-md.text-right
               i.icon.icon-time
               =< event_with_time(@bit)
-    if (@bit.root? == false)
+    - if (@bit.root? == false)
       ul class='breadcrumb'
         li.breadcrumb-item
         li.breadcrumb-item
