@@ -14,15 +14,15 @@ module DateTimeHelper
   end
 
   # output: 08 Jan 12:00 (Taipei)
-  def due_at_with_time_zone(bit)
+  def due_at_with_time_zone(bit, format: :short)
     time_zone = bit.due_at_time_zone || current_user.time_zone
-    "#{bit.due_at.in_time_zone(time_zone).to_formatted_s(:short)} (#{time_zone})"
+    "#{bit.due_at.in_time_zone(time_zone).to_formatted_s(format)} (#{time_zone})"
   end
 
   # output: '08 Jan 12:00' with time_zone if different from user's
-  def due_at_with_optional_time_zone(bit)
+  def due_at_with_optional_time_zone(bit, format: :short)
     time_zone = bit.due_at_time_zone || current_user.time_zone
-    s = "#{bit.due_at.in_time_zone(time_zone).to_formatted_s(:short)}"
+    s = "#{bit.due_at.in_time_zone(time_zone).to_formatted_s(format)}"
     if (bit.due_at_time_zone != current_user.time_zone)
       s = s + " (#{time_zone})"
     end

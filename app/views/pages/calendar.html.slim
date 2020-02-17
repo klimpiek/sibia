@@ -1,9 +1,9 @@
 div
-  = link_to "Today", calendar_path(selection: @user_selection), class: "btn float-right"
+  = link_to "Today", {action: :calendar, selection: @user_selection}, class: "btn float-right"
   div.btn-group
-    = link_to "Week", agenda_path(start_date: @start_date, selection: 'week'), class: "btn"
-    = link_to "Month", calendar_path(start_date: @start_date, selection: 'month'), class: "btn #{(@user_selection=='month') ? 'btn-primary' : ''}"
-    = link_to "Quarter", calendar_path(start_date: @start_date, selection: 'quarter'), class: "btn #{(@user_selection=='quarter') ? 'btn-primary' : ''}"
+    = link_to "Week", {action: :agenda, start_date: @start_date, selection: 'week'}, class: "btn"
+    = link_to "Month", {action: :calendar, start_date: @start_date, selection: 'month'}, class: "btn #{(@user_selection=='month') ? 'btn-primary' : ''}"
+    = link_to "Quarter", {action: :calendar, start_date: @start_date, selection: 'quarter'}, class: "btn #{(@user_selection=='quarter') ? 'btn-primary' : ''}"
 br
 div.calendar.calendar-lg style="border-bottom-width: 0px;"
   div.calendar-nav.navbar

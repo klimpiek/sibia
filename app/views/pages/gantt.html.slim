@@ -1,9 +1,9 @@
 div
-  = link_to "Today", gantt_path(period: @period), class: "btn float-right"
+  = link_to "Today", {action: :gantt, period: @period}, class: "btn float-right"
   div.btn-group
-    / = link_to "Week", gantt_path(start_date: @start_date, period: 'week'), class: "btn #{(@period=='week') ? 'btn-primary' : ''}"
-    = link_to "Month", gantt_path(start_date: @start_date, period: 'month'), class: "btn #{(@period=='month') ? 'btn-primary' : ''}"
-    = link_to "Year", gantt_path(start_date: @start_date, period: 'year'), class: "btn #{(@period=='year') ? 'btn-primary' : ''}"
+    / = link_to "Week", {action: :gantt, start_date: @start_date, period: 'week'}, class: "btn #{(@period=='week') ? 'btn-primary' : ''}"
+    = link_to "Month", {action: :gantt, start_date: @start_date, period: 'month'}, class: "btn #{(@period=='month') ? 'btn-primary' : ''}"
+    = link_to "Year", {action: :gantt, start_date: @start_date, period: 'year'}, class: "btn #{(@period=='year') ? 'btn-primary' : ''}"
 br
 div data-controller="gantt"
   div.gantt style='width: 2048px' data-target="gantt.chart"
