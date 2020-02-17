@@ -1,0 +1,15 @@
+/ prefix is used to count the depth instead of calling :depth on bit which makes query on database.
+/ Therefore, prefix must be a flatted array.
+- nodes.each_with_index do |node, index|
+  div.accordion style="padding-left: #{prefix.blank? ? 0 : 1.2}em;"
+    input id="accordion-#{prefix.join('-')}-#{index}" type="checkbox" name="accordion-checkbox" hidden=""
+    label.accordion-header for="accordion-#{prefix.join('-')}-#{index}"
+      - if node.leaf?
+        i.icon.hide-sm
+      - else
+        i.icon.icon-arrow-right.hide-sm
+        i.icon.icon-arrow-right.float-right.show-sm
+      =< link_to node.title, node
+    - if (prefix.count < 3) && (node.leaf? == false)
+      div.accordion-body style="margin-bottom: 0;"
+        == render partial: 'pages/workspace_node', locals: {nodes: node.children, prefix: [:node, prefix].flatten }

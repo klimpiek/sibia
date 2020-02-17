@@ -36,16 +36,13 @@ div.card
         div.column.col-5.col-md-12
           - if @bit.begin_at.present?
             div.show-md
-              = event_with_time(@bit)
+              i.icon.icon-time
+              =< event_with_time(@bit)
             div.hide-md.text-right
               i.icon.icon-time
               =< event_with_time(@bit)
   div.card-footer
-    = link_to bits_path do
-      i.icon.icon-arrow-left
-      | Back
-    - if @bit.parent
-      | &nbsp;&nbsp;&nbsp;
+    - if @bit.parent.present?
       = link_to @bit.parent do
         i.icon.icon-arrow-up
         =< @bit.parent.title
