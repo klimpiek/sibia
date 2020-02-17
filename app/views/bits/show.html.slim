@@ -41,11 +41,14 @@ div.card
             div.hide-md.text-right
               i.icon.icon-time
               =< event_with_time(@bit)
-  div.card-footer
-    - if @bit.parent.present?
-      = link_to @bit.parent do
-        i.icon.icon-arrow-up
-        =< @bit.parent.title
+    if (@bit.root? == false)
+      ul class='breadcrumb'
+        li.breadcrumb-item
+        li.breadcrumb-item
+          = link_to 'Workspace', workspace_path
+        - @bit.ancestors.reverse_each do |ancestor|
+          li.breadcrumb-item
+            = link_to ancestor.title, ancestor
 - @children.each do |child|
   div.pt-2
   div.card
