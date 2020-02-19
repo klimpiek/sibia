@@ -43,8 +43,8 @@ html
                     li.menu-item = link_to 'Favorites', favorites_path
                     li.menu-item = link_to 'Links', links_path
                     li.menu-item = link_to 'Table', table_path
-                    li.menu-item = link_to 'Tasks', tasks_path(query: 'ongoing')
-                    li.menu-item = link_to 'Events', events_path
+                    li.menu-item = link_to 'Tasks', tasks_path(query: :ongoing)
+                    li.menu-item = link_to 'Events', events_path(query: :current)
                     li.menu-item = link_to 'Calendar', calendar_path
                     li.menu-item = link_to 'Gantt', gantt_path
                     li.divider
@@ -75,8 +75,8 @@ html
                 li.nav-item = link_to 'Favorites', favorites_path
                 li.nav-item = link_to 'Links', links_path
                 li.nav-item = link_to 'Table', table_path
-                li.nav-item = link_to 'Tasks', tasks_path(query: 'ongoing')
-                li.nav-item = link_to 'Events', events_path
+                li.nav-item = link_to 'Tasks', tasks_path(query: :ongoing)
+                li.nav-item = link_to 'Events', events_path(query: :current)
                 li.nav-item = link_to 'Calendar', calendar_path
                 li.nav-item = link_to 'Gantt', gantt_path
               div.divider

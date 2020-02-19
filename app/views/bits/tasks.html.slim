@@ -1,13 +1,13 @@
 h4 Tasks
 
 ul.tab.tab-block
-  li.tab-item class=(params[:query].downcase == 'ongoing' ? 'active' : '')
+  li.tab-item class=(params[:query].try(:downcase) == 'ongoing' ? 'active' : '')
     = link_to "Ongoing", {action: :tasks, query: :ongoing}
-  li.tab-item class=(params[:query].downcase == 'completed' ? 'active' : '')
+  li.tab-item class=(params[:query].try(:downcase) == 'completed' ? 'active' : '')
     = link_to "Completed", {action: :tasks, query: :completed}
-  li.tab-item class=(params[:query].downcase == 'waiting' ? 'active' : '')
+  li.tab-item class=(params[:query].try(:downcase) == 'waiting' ? 'active' : '')
     = link_to "Waiting", {action: :tasks, query: :waiting}
-  li.tab-item class=(params[:query].downcase == 'all' ? 'active' : '')
+  li.tab-item class=(params[:query].try(:downcase) == 'all' ? 'active' : '')
     = link_to "All", {action: :tasks, query: :all}
 
 div.pt-2

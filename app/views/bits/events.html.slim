@@ -1,5 +1,13 @@
 h4 Events
 
+ul.tab.tab-block
+  li.tab-item class=(params[:query].downcase == 'past' ? 'active' : '')
+    = link_to "Past", {action: :events, query: :past}
+  li.tab-item class=(params[:query].downcase == 'current' ? 'active' : '')
+    = link_to "Current", {action: :events, query: :current}
+  li.tab-item class=(params[:query].downcase == 'future' ? 'active' : '')
+    = link_to "Future", {action: :events, query: :future}
+
 - @bits.each do |bit|
   div.tile.tile-centered
     div.tile-icon
