@@ -46,15 +46,14 @@ class BitsController < ApplicationController
     @bits = current_user.bits.events
     case params[:query].try(:downcase)
     when 'past'
-      @bits = @bits.where('end_at < ?', DateTime.current.beginning_of_day)
+      @bits = @bits.where('end_at < ?', DateTime.current.beginning_of_day).order('end_at DESC')
     when 'current'
-      @bits = @bits.occur_in(DateTime.current.beginning_of_day..DateTime.current.end_of_day)
+      @bits = @bits.occur_in(DateTime.current.beginning_of_day..DateTime.current.end_of_day).order('begin_at ASC')
     when 'future'
-      @bits = @bits.where('begin_at > ?', DateTime.current.end_of_day)
+      @bits = @bits.where('begin_at > ?', DateTime.current.end_of_day).order('begin_at ASC')
     else
-      redirect_to events_path(query: :current)
+      redirect_to(events_path(query: :current)) and return
     end
-    @bit = @bits.order('begin_at ASC')
     @pagy, @bits = pagy(@bits, items: 12)
   end
 
@@ -68,7 +67,7 @@ class BitsController < ApplicationController
     when 'waiting'
       @bits = @bits.where(status: :waiting)
     else
-      redirect_to tasks_path(query: :ongoing)
+      redirect_to(tasks_path(query: :ongoing)) and return
     end
     @bit = @bits.order('due_at ASC')
     @pagy, @bits = pagy(@bits, items: 12)
