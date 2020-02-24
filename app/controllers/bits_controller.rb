@@ -162,6 +162,9 @@ class BitsController < ApplicationController
       attrs[:due_at] = add_zone_to_datetime(attrs.delete(:due_at), attrs[:due_at_time_zone])
       attrs[:begin_at] = add_zone_to_datetime(attrs.delete(:begin_at), attrs[:begin_at_time_zone])
       attrs[:end_at] = add_zone_to_datetime(attrs.delete(:end_at), attrs[:end_at_time_zone])
+      if attrs[:end_at].blank?
+        attrs[:end_at] = (attrs[:due_at] || (attrs[:begin_at]+1.day))
+      end
       attrs
     end
 
