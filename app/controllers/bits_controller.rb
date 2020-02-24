@@ -49,6 +49,9 @@ class BitsController < ApplicationController
       @bits = @bits.where('end_at < ?', DateTime.current.beginning_of_day).order('end_at DESC')
     when 'current'
       @bits = @bits.occur_in(DateTime.current.beginning_of_day..DateTime.current.end_of_day).order('begin_at ASC')
+      if (@bits.count == 0)
+        redirect_to(events_path(query: :future), notice: 'No current events') and return
+      end
     when 'future'
       @bits = @bits.where('begin_at > ?', DateTime.current.end_of_day).order('begin_at ASC')
     else
