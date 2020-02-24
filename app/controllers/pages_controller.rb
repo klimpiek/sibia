@@ -49,7 +49,7 @@ class PagesController < ApplicationController
     @start_date = start_date
     set_gantt(params[:period].try(:downcase), @start_date)
 
-    @events = current_user.bits.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
+    @events = current_user.bits.tasks.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
   end
 
   def calendar
