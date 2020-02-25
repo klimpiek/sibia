@@ -13,21 +13,19 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user destroy bits" do
-    assert_equal 2, @user_one.bits.count
-    assert_equal 2, @user_one.ownerships.count
-    @user_one.bits.first.destroy
-    assert_equal 1, @user_one.bits.count
-    assert_equal 1, @user_one.ownerships.count
+    assert_difference ['@user_one.bits.count', '@user_one.ownerships.count'], -1 do
+      @user_one.bits.first.destroy
+    end
   end
 
   test "user has bits" do
-    assert_equal 2, @user_one.bits.count
+    assert_equal 3, @user_one.bits.count
   end
 
   test "user delete bits" do
-    assert_equal 2, @user_one.bits.count
-    bit = bits(:one)
-    bit.destroy
-    assert_equal 1, @user_one.bits.count
+    assert_difference '@user_one.bits.count', -1 do
+      bit = bits(:one)
+      bit.destroy
+    end
   end
 end

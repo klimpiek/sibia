@@ -17,3 +17,10 @@ three:
   description: MyText
   content: MyText
   uri: MyText
+
+four:
+  title: MyText
+  description: MyText
+  content: MyText
+  uri: MyText
+  predecessor: three

@@ -18,3 +18,8 @@ three:
   tags: []
   favorite: false
 
+four:
+  user: one
+  bit: four
+  tags: []
+  favorite: false
