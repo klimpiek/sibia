@@ -97,7 +97,7 @@
   div.form-group
     div.input-group
       = f.label :predecessor, class: 'form-label input-group-addon'
-      = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true}, {class: 'form-select', style: 'width: 10vw;'}
+      = f.collection_select :predecessor_id, current_user.bits.select(:id, :title).to_a.delete_if { |bit| bit.id == @bit.id }, :id, :title, {prompt: true, include_blank: true}, {class: 'form-select', style: 'width: 10vw;'}
     p.form-input-hint Link this bit to its predecessor in gantt chart
 
   div.form-group
