@@ -69,6 +69,8 @@ class BitsController < ApplicationController
       @bits = @bits.where(status: :completed)
     when 'waiting'
       @bits = @bits.where(status: :waiting)
+    when 'all'
+      @bits = @bits
     else
       redirect_to(tasks_path(query: :ongoing)) and return
     end

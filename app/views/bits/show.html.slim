@@ -16,7 +16,7 @@ div.card
     div.card-subtitle.text-gray = @bit.description
     - if (tags = @bit.tags(user: current_user)).count > 0
       - tags.each do |tag|
-        span.chip = tag
+        span.chip = link_to tag, search_path(q: {tag: tag})
   div.card-body
     div.bg-gray
       == @markdown

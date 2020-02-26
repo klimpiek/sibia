@@ -6,10 +6,14 @@ div.divider
 div
 - @ownerships.each do |ownership|
   div.tile.tile-centered
+    div.tile-icon
+      = link_with_bookmark_icon(ownership.bit)
     div.tile-content
       div.tile-title = link_to ownership.bit.title, ownership.bit
       small.tile-subtitle = ownership.bit.description
     div.tile-action
       - ownership.tags.each do |tag|
         span.chip = link_to tag, search_path(q: {tag: tag})
+      = link_to edit_bit_path(ownership.bit), {class: 'btn btn-link'} do
+        i.icon.icon-more-vert
   div.divider
