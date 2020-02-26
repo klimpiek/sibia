@@ -1,30 +1,37 @@
 h5 Help
 
-div.accordion
-  input#accordion-workspace type="radio" name="accordion-radio" hidden=""
-  label.accordion-header for="accordion-workspace"
-    i.icon.icon-arrow-right>
-    strong Workspace
-  div.accordion-body
-    div Workspace shows all root bits with button to expand children bits. It gives a glimpse of bit organization.
-div.accordion
-  input#accordion-bits type="radio" name="accordion-radio" hidden=""
-  label.accordion-header for="accordion-bits"
-    i.icon.icon-arrow-right>
-    strong Bits
-  div.accordion-body
-    | Bits shows all bits. It is a quick view to find bit.
-div.accordion
-  input#accordion-favorite type="radio" name="accordion-radio" hidden=""
-  label.accordion-header for="accordion-favorite"
-    i.icon.icon-arrow-right>
-    strong Favorite
-  div.accordion-body
-    | Favorite shows only bits marked as favorites.
-div.accordion
-  input#accordion-links type="radio" name="accordion-radio" hidden=""
-  label.accordion-header for="accordion-links"
-    i.icon.icon-arrow-right>
-    strong Links
-  div.accordion-body
-    | Links shows only bits with links.
+div.card
+  div.card-header
+    div.card-title.h5 Bit
+  div.card-body
+    | Bit is the basic unit to keep information in designated fields, such as note in content, link in uri, task in status and due date, event in begin and end date, etc. It allows bits easily organized and searched. Bits can also be marked as <b>favoriate</b>.
+br
+div.card
+  div.card-header
+    div.card-title.h5 Links
+  div.card-body
+    | Any bit with uri can be seen as link. It serves as bookmarking.
+br
+div.card
+  div.card-header
+    div.card-title.h5 Tasks
+  div.card-body
+    | Any bit with a status is a task. Tasks in different status can be quickly sorted. Due date is optional.
+br
+div.card
+  div.card-header
+    div.card-title.h5 Events
+  div.card-body
+    | Any bit with begin and end dates is an event. It will shows up in calendar, allowing quick glance.
+br
+div.card
+  div.card-header
+    div.card-title.h5 Gantt
+  div.card-body
+    | Any bit with status as task, and begin and date date as event, will show up in gantt chart. An optional predecessor field will link two events for easy following.
+br
+div.card
+  div.card-header
+    div.card-title.h5 Workspace
+  div.card-body
+    | Bit can contain other bits in a hirarchical way. Such relationship is displayed in workspace, allowing organization of bits.
