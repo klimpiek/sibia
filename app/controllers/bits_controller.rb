@@ -5,6 +5,7 @@ class BitsController < ApplicationController
   def table
     # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
     @ownerships = current_user.ownerships.includes(:bit).order('bits.updated_at DESC')
+    session[:after_destroy_location] = table_path
   end
 
   # only for autocomplete parent. @bit could be nil (new bit)
@@ -40,6 +41,7 @@ class BitsController < ApplicationController
   def favorites
     @bits = current_user.bits.favorites.recent_first
     @pagy, @bits = pagy(@bits, items: 12)
+    session[:after_destroy_location] = favorites_path
   end
 
   def events
@@ -58,6 +60,7 @@ class BitsController < ApplicationController
       redirect_to(events_path(query: :current)) and return
     end
     @pagy, @bits = pagy(@bits, items: 12)
+    session[:after_destroy_location] = events_path
   end
 
   def tasks
@@ -76,12 +79,14 @@ class BitsController < ApplicationController
     end
     @bit = @bits.order('due_at ASC')
     @pagy, @bits = pagy(@bits, items: 12)
+    session[:after_destroy_location] = tasks_path
   end
 
   def links
     # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
     @ownerships = current_user.ownerships.includes(:bit).where.not(bits: {uri: ''}).order('bits.updated_at DESC')
     @pagy, @ownerships = pagy(@ownerships, items: 12)
+    session[:after_destroy_location] = links_path
   end
 
   # GET /bits
@@ -90,6 +95,7 @@ class BitsController < ApplicationController
     # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
     @ownerships = current_user.ownerships.includes(:bit).order('bits.updated_at DESC')
     @pagy, @ownerships = pagy(@ownerships, items: 12)
+    session[:after_destroy_location] = bits_path
   end
 
   # GET /bits/1
@@ -156,7 +162,7 @@ class BitsController < ApplicationController
   def destroy
     @bit.destroy
     respond_to do |format|
-      format.html { redirect_to bits_url, notice: 'Bit was successfully destroyed.' }
+      format.html { redirect_to (session[:after_destroy_location] || bits_url), notice: 'Bit was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

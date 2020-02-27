@@ -12,10 +12,10 @@ div.container style='xheight: 200px; min-width:600px'
     div.column.col-11
       div.calendar.calendar-lg style="border-bottom-width: 0px;"
         div.calendar-nav.navbar
-          = link_to agenda_path(start_date: @prev_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
+          = link_to url_for(action: :agenda, start_date: @prev_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
             i.icon.icon-arrow-left
           div.navbar-primary = @start_date.strftime("%B %Y")
-          = link_to agenda_path(start_date: @next_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
+          = link_to url_for(action: :agenda, start_date: @next_date, selection: @user_selection), class: 'btn btn-action btn-link btn-lg' do
             i.icon.icon-arrow-right
         div.calendar-container
           div.calendar-header style="border-bottom-width: 0px;"

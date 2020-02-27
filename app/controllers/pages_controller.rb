@@ -30,6 +30,7 @@ class PagesController < ApplicationController
     end
     @roots = current_user.bits.roots.includes(:children, children: [:children]).recent_first
     @pagy, @roots = pagy(@roots, items: 12)
+    session[:after_destroy_location] = workspace_path
   end
 
   def dashboard
@@ -50,6 +51,7 @@ class PagesController < ApplicationController
     set_gantt(params[:period].try(:downcase), @start_date)
 
     @events = current_user.bits.tasks.events.occur_in(@date_range).includes(:predecessor).order("begin_at ASC")
+    session[:after_destroy_location] = gantt_path
   end
 
   def calendar
@@ -57,6 +59,7 @@ class PagesController < ApplicationController
     set_calendar(params[:selection].try(:downcase), @start_date)
 
     @events = current_user.bits.events.occur_in(@date_range)
+    session[:after_destroy_location] = calendar_path
   end
 
   def agenda
@@ -66,6 +69,7 @@ class PagesController < ApplicationController
     @events = current_user.bits.events.occur_in(@date_range)
     @all_day_events = @events.where(all_day: true)
     @events_with_time = @events.where(all_day: false)
+    session[:after_destroy_location] = agenda_path
   end
 
 end
