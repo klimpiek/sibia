@@ -28,8 +28,7 @@ COPY . /myapp
 # Assets, to fix missing secret key issue during building
 RUN SECRET_KEY_BASE=dumb bundle exec rails assets:precompile \
 && find vendor/bundle -name "*.c" -delete \
-&& find vendor/bundle -name "*.o" -delete \
-&& rm -rf tmp/cache
+&& find vendor/bundle -name "*.o" -delete
 
 FROM ruby:2.6.5-alpine
 
@@ -53,6 +52,7 @@ COPY --from=gem /myapp/public/packs /myapp/public/packs
 # For some reasion, dockerignore does not work properly
 RUN rm -rf test \
 && rm -rf vendor/bundle/ruby/2.6.0/cache \
+&& rm -rf tmp/cache \
 && rm -rf README.md
 
 # Add a script to be executed every time the container starts.
