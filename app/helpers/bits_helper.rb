@@ -13,21 +13,29 @@ module BitsHelper
     end
   end
 
-  def task_status_with_icon(bit)
-    if bit.unassigned?
-      # tag.button class: %w{btn btn
-    else
+  def status_color(bit, prefix: 'text', inverted: false)
+    color = "#{prefix}-secondary"
+
+    case bit.status
+    when 'unassigned'
+      color = 'd-invisible'
+    when 'todo'
+      color = (inverted ? "#{prefix}-secondary" : "#{prefix}-primary")
+    when 'ongoing'
+      color = (inverted ? "#{prefix}-secondary" : "#{prefix}-primary")
+    when 'waiting'
+      color = "#{prefix}-warning"
+    when 'completed'
+      color = "#{prefix}-success"
     end
   end
 
   def status_icon(bit, options = {})
-    color = 'text-secondary'
     icon = ''
     extra_btn_class = ''
 
     case bit.status
     when 'unassigned'
-      color = 'd-invisible'
       icon = ''
       extra_btn_class = 'd-invisible'
     when 'todo'
@@ -35,13 +43,12 @@ module BitsHelper
     when 'ongoing'
       icon = "play_circle_outline"
     when 'waiting'
-      color = 'text-warning'
       icon = "pause_circle_outline"
     when 'completed'
-      color = 'text-success'
       icon = "check_circle"
     end
 
+    color = status_color(bit, inverted: true)
     options.reverse_merge!(class: "", title: bit.status)
     options[:class] = options[:class] + " material-icons-outlined #{color}"
 

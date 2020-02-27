@@ -4,6 +4,9 @@
   div.accordion style="padding-left: #{prefix.blank? ? 0 : 1.2}em;"
     input id="accordion-#{prefix.join('-')}-#{index}" type="checkbox" name="accordion-checkbox" hidden=""
     label.accordion-header for="accordion-#{prefix.join('-')}-#{index}"
+      - if(node.unassigned? == false)
+        span.bg-gray.chip.hide-md.float-right class=status_color(node)
+          = node.status
       - if node.leaf?
         i.icon.hide-sm
       - else
