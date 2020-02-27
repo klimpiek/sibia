@@ -28,7 +28,8 @@ COPY . /myapp
 # Assets, to fix missing secret key issue during building
 RUN SECRET_KEY_BASE=dumb bundle exec rails assets:precompile \
 && find vendor/bundle -name "*.c" -delete \
-&& find vendor/bundle -name "*.o" -delete
+&& find vendor/bundle -name "*.o" -delete \
+&& rm -rf tmp/cache
 
 FROM ruby:2.6.5-alpine
 
