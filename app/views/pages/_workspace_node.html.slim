@@ -15,4 +15,4 @@
       =< link_to node.title, node
     - if (prefix.count < 3) && (node.leaf? == false)
       div.accordion-body style="margin-bottom: 0;"
-        == render partial: 'pages/workspace_node', locals: {nodes: node.children, prefix: [:node, prefix].flatten }
+        == render partial: 'pages/workspace_node', locals: {nodes: node.children.recent_first, prefix: [:node, prefix].flatten }
