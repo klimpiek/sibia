@@ -63,7 +63,9 @@ module PagesHelper
     data
   end
 
-  def gantt_columns(begin_at, end_at, start_date, period)
+  def gantt_columns(event, start_date, period)
+    begin_at = event.begin_at
+    end_at = event.end_at
     columns = "1/1"
     case period
     when 'year'
@@ -71,13 +73,47 @@ module PagesHelper
       e = ((end_at.end_of_day+4.weeks).to_i-start_date.end_of_day.to_i)/(7*24*60*60)
       b = 0 if b < 0
       columns = "#{b+1}/#{e+2}"
+      columns = {begin: b+1, end: e+2}
     when 'month'
       b = ((begin_at.end_of_day+7.days).to_i-start_date.end_of_day.to_i)/(24*60*60)
       e = ((end_at.end_of_day+7.days).to_i-start_date.end_of_day.to_i)/(24*60*60)
       b = 0 if b < 0
       columns = "#{b+1}/#{e+2}"
+      columns = {begin: b+1, end: e+2}
     end
-    p columns
     columns
+  end
+
+  def gantt_style(event, start_date, period)
+    columns = gantt_columns(event, start_date, period)
+    "grid-column: #{columns.values.join('/')};"
+  end
+
+  def gantt_event(event, start_date, period)
+    columns = gantt_columns(event, start_date, period)
+    short_event = ((columns[:end]-columns[:begin])<4) ? true : false
+    li_style = gantt_style(event, @start_date, @period)
+    if short_event
+      li_style = li_style+"max-height: 2em;"
+    else
+      li_style = li_style+"height: max-content;"
+    end
+
+    s = tag.li class: %w(gantt_event), id: dom_id(event, :gantt), \
+           data: {predecessor: (event.predecessor.present? ? dom_id(event.predecessor, :gantt) : nil)}, \
+           style: li_style, \
+           title: event.title  do
+             link_to event.title, event, class: 'text-dark' if (short_event == false)
+           end
+    if short_event
+      t = tag.li class: %w(gantt_event), id: dom_id(event, :gantt), \
+             data: {predecessor: (event.predecessor.present? ? dom_id(event.predecessor, :gantt) : nil)}, \
+             style: 'background: none; width: max-content;', \
+             title: event.title  do
+               link_to event.title, event, class: 'text-dark'
+             end
+      s = s + t
+    end
+    s
   end
 end
