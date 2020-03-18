@@ -4,6 +4,12 @@ class Bit < ApplicationRecord
   store_accessor :time_zone, :due_at, :begin_at, :end_at, suffix: true
 
   validates :title, presence: true, unless: :uri?
+  with_options if: :begin_at? do |bit|
+    bit.validates :end_at, presence: true
+    bit.validates_each :end_at do |record, attr, value|
+      record.errors.add(attr, "must be later than begin date") if value.present? && record.begin_at.after?(value)
+    end
+  end
 
   has_closure_tree name_column: :title, order: 'sort_order', numeric_order: true
 
