@@ -72,4 +72,8 @@ class PagesController < ApplicationController
     session[:after_destroy_location] = agenda_path
   end
 
+  def flowchart
+    @events = current_user.bits.tasks.where(predecessor_id: nil)
+  end
+
 end

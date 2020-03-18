@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   # to test vue in rails
   get 'vue', to: 'pages#vue'
   get 'agenda', to: 'pages#agenda'
+  get 'flowchart', to: 'pages#flowchart'
 
   post 'line_bot/callback'
   if Rails.env.production?

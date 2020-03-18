@@ -1,0 +1,117 @@
+.flowchart #wrapper, #wrapper:before, #wrapper:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.flowchart #wrapper {
+  position: relative;
+//  min-width: 1200px;
+  overflow-x: auto;
+  margin: 0;
+  color: black;
+  font: 16px Verdana, sans-serif;
+  background: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.flowchart {
+  .branch {
+    position: relative;
+    margin-left: 250px;
+  }
+
+  .branch:before {
+    content: "";
+    width: 50px;
+    border-top: 2px solid #000;
+    position: absolute;
+    left: -100px;
+    top: 50%;
+    margin-top: 1px;
+  }
+
+  .entry {
+    position: relative;
+    min-height: 3em;
+    max-width: 150px;
+  }
+
+  .entry:before {
+    content: "";
+    height: 100%;
+    border-left: 2px solid #000;
+    position: absolute;
+    left: -50px;
+  }
+
+  .entry:after {
+    content: "";
+    width: 50px;
+    border-top: 2px solid #000;
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    margin-top: 1px;
+  }
+
+  .entry:first-child:before {
+    width: 10px;
+    height: 50%;
+    top: 50%;
+    margin-top: 2px;
+    border-radius: 10px 0 0 0;
+  }
+
+  .entry:first-child:after {
+    height: 10px;
+    border-radius: 10px 0 0 0;
+  }
+
+  .entry:last-child:before {
+    width: 10px;
+    height: 50%;
+    border-radius: 0 0 0 10px;
+  }
+
+  .entry:last-child:after {
+    height: 10px;
+    border-top: none;
+    border-bottom: 2px solid #000;
+    border-radius: 0 0 0 10px;
+    margin-top: -9px;
+  }
+
+  .entry.sole:before {
+    display: none;
+  }
+
+  .entry.sole:after {
+    width: 50px;
+    height: 0;
+    margin-top: 1px;
+    border-radius: 0;
+  }
+
+  .entry-label {
+    display: block;
+    min-width: 150px;
+    padding: 5px 10px;
+    line-height: 20px;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 5px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -15px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: inherit;
+  }
+}

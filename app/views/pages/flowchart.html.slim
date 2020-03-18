@@ -1,0 +1,11 @@
+= link_to "Tasks", tasks_path, class: 'btn float-right'
+h4 Flowchart
+div.flowchart
+  div#wrapper
+    span.entry-label &nbsp;
+    - @events.each do |event|
+      - if event.successors.count > 0
+        = render partial: 'pages/flowchart_entry', locals: {entry: event, sole: false}
+div.pt-2
+  p
+    | Here only shows tasks with relationships with other tasks and one of the tasks is not completed.

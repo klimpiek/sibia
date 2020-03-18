@@ -1,5 +1,8 @@
 module BitsHelper
 
+  def all_tasks_completed(task, status: :completed)
+  end
+
   # output uri as link with icon-bookmark
   def link_with_bookmark_icon(bit)
     if bit.uri.present?
@@ -13,12 +16,12 @@ module BitsHelper
     end
   end
 
-  def status_color(bit, prefix: 'text', inverted: false)
+  def status_color(bit, prefix: 'text', inverted: false, show_unassigned: false)
     color = "#{prefix}-secondary"
 
     case bit.status
     when 'unassigned'
-      color = 'd-invisible'
+      color = (show_unassigned ? "#{prefix}-primary" : 'd-invisible')
     when 'todo'
       color = (inverted ? "#{prefix}-secondary" : "#{prefix}-primary")
     when 'ongoing'

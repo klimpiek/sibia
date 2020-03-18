@@ -1,0 +1,6 @@
+div.entry class=(sole ? "sole" : "")
+  span.entry-label class=status_color(entry, prefix: 'bg', show_unassigned: true) = link_to entry.title, entry, class: 'text-secondary'
+  - if entry.successors.exists?
+    div.branch
+      - entry.successors.each do |successor|
+        = render partial: 'pages/flowchart_entry', locals: {entry: successor, sole: (entry.successors.count == 1)}
