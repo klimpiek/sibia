@@ -1,6 +1,15 @@
 module BitsHelper
 
-  def all_tasks_completed(task, status: :completed)
+  def flowchart_icon(bit, invisible_dummy: true)
+    if bit.predecessor.present? || bit.successors.exists?
+      link_to flowchart_bit_path(bit), class: %w( flex-center btn btn-action btn-link) do
+        tag.i "swap_horiz", class: %w( material-icons-outlined )
+      end
+    elsif invisible_dummy
+      link_to '#', {class: 'btn d-invisible'} do
+        tag.i "settings_ethernet", class: %w( material-icons-outlined )
+      end
+    end
   end
 
   # output uri as link with icon-bookmark

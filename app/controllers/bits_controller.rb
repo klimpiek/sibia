@@ -1,6 +1,10 @@
 class BitsController < ApplicationController
-  before_action :set_bit, only: [:show, :edit, :update, :destroy]
+  before_action :set_bit, only: [:show, :edit, :update, :destroy, :flowchart]
   before_action :set_ownership, only: [:edit, :update]
+
+  def flowchart
+    @events = [find_root_predecessor(@bit)]
+  end
 
   def table
     # using ownerships for eager-loading does not avoid the less-likely probiem that bits are not uniq.
@@ -168,6 +172,14 @@ class BitsController < ApplicationController
   end
 
   private
+    def find_root_predecessor(bit)
+      if bit.predecessor.present?
+        find_root_predecessor(bit.predecessor)
+      else
+        bit
+      end
+    end
+
     def params_with_time_zone_adjusted
       attrs = bit_params
       attrs[:due_at] = add_zone_to_datetime(attrs.delete(:due_at), attrs[:due_at_time_zone])

@@ -5,6 +5,7 @@ div.card
         i.material-icons-outlined.fix-icon-width favorite_border
       div.dropdown.dropdown-right
         div.btn-group
+          = flowchart_icon(@bit, invisible_dummy: false)
           = link_to edit_bit_path(@bit), {class: 'btn'} do
             i.icon.icon-edit
           a.btn.dropdown-toggle tabindex="0"

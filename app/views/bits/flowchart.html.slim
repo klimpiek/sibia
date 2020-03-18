@@ -1,0 +1,8 @@
+= link_to "Tasks", tasks_path, class: 'btn float-right'
+h4 = @bit.title
+div.flowchart
+  div#wrapper
+    span.entry-label &nbsp;
+    - @events.each do |event|
+      - if event.successors.count > 0
+        = render partial: 'flowchart_entry', locals: {entry: event, sole: false}

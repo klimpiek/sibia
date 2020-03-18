@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get 'parents', to: 'bits#parents', on: :collection
     get 'tags', to: 'bits#tags', on: :member
     get 'tags', to: 'bits#tags', on: :collection
+    get 'flowchart', to: 'bits#flowchart', on: :member
   end
 
   resource :user, only: [:edit, :update] do
@@ -32,7 +33,6 @@ Rails.application.routes.draw do
   # to test vue in rails
   get 'vue', to: 'pages#vue'
   get 'agenda', to: 'pages#agenda'
-  get 'flowchart', to: 'pages#flowchart'
 
   post 'line_bot/callback'
   if Rails.env.production?
