@@ -1,7 +1,7 @@
 = form_for @bit, data: {controller: 'bit-form'} do |f|
   - if @bit.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@bit.errors.count, "error")} prohibited this bit from being saved:"
+    div.toast.toast-error
+      h4 = "#{pluralize(@bit.errors.count, "error")} prohibited this bit from being saved:"
       ul
         - @bit.errors.full_messages.each do |message|
           li = message

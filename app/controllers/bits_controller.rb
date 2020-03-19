@@ -131,7 +131,7 @@ class BitsController < ApplicationController
     end
 
     respond_to do |format|
-      if current_user.ownerships.create(bit: @bit) && @bit.valid?
+      if @bit.valid? && current_user.ownerships.create(bit: @bit)
         @ownership = current_user.ownerships.find_by(bit: @bit)
         @ownership.update(ownership_params)
         format.html { redirect_to @bit, notice: 'Bit was successfully created.' }

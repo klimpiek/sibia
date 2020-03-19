@@ -19,6 +19,12 @@ class BitsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should not create bit with invalid being and end date" do
+    assert_difference('Bit.count', 0) do
+      post bits_url, params: { bit: { content: @bit.content, description: @bit.description, title: @bit.title, begin_at: DateTime.current, end_at: DateTime.current-1.day } }
+    end
+  end
+
   test "should create bit" do
     assert_difference('Bit.count') do
       post bits_url, params: { bit: { content: @bit.content, description: @bit.description, title: @bit.title } }
