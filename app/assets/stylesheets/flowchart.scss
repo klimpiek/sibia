@@ -1,3 +1,8 @@
+$padding-top: 60px;
+$bar-width: 40px;
+$corner-radius: 10px;
+$top-position: 20px;
+
 .flowchart #wrapper, #wrapper:before, #wrapper:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6,12 +11,8 @@
 
 .flowchart #wrapper {
   position: relative;
-//  min-width: 1200px;
   overflow-x: auto;
   margin: 0;
-  color: black;
-  font: 16px Verdana, sans-serif;
-  background: white;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -21,89 +22,80 @@
 .flowchart {
   .branch {
     position: relative;
-    margin-left: 150px;
-    margin-bottom: 80px;
-    padding-top: 65px;
-    // height: 300px;
-  }
+    margin-left: 100px;
+    padding-top: $padding-top;
 
-  .branch:before {
-    content: "";
-    width: 70px;
-    height: 50px;
-    border-bottom: 2px solid #f00;
-    border-left: 2px solid #000;
-    border-radius: 0 0 0 10px;
-    position: absolute;
-    left: -120px;
-    top: 37px;
-    margin-top: 1px;
+    &:before {
+      content: "";
+      width: 30px;
+      height: calc(#{$padding-top} - 15px);
+      border-bottom: 2px solid #000;
+      border-left: 2px solid #000;
+      border-radius: 0 0 0 $corner-radius;
+      position: absolute;
+      left: -70px;
+      top: 37px;
+    }
   }
 
   .entry {
     position: relative;
-    // padding-top: 65px;
     min-height: 3em;
-    // max-width: 150px;
-  }
 
-  .entry:before {
-    content: "";
-    height: 100%;
-    border-left: 2px solid #0f0;
-    position: absolute;
-    left: -50px;
-  }
+    &:before {
+      content: "";
+      height: 100%;
+      border-left: 2px solid #000;
+      position: absolute;
+      left: calc(0px - #{$bar-width});
+    }
 
-  .entry:after {
-    content: "";
-    width: 50px;
-    border-top: 2px solid #00f;
-    position: absolute;
-    left: -50px;
-    top: 20px;
-    margin-top: 1px;
-  }
+    &:after {
+      content: "";
+      width: $bar-width;
+      border-top: 2px solid #000;
+      position: absolute;
+      left: calc(0px - #{$bar-width});
+      top: $top-position;
+    }
 
-  .entry:first-child:before {
-    width: 10px;
-    height: 50%;
-    top: 50%;
-    margin-top: 2px;
-    // border-radius: 10px 0 0 0;
-  }
+    &:first-child:before {
+      width: $corner-radius;
+      height: calc(100% - #{$corner-radius});
+      border-left: 2px solid #000;
+      top: $top-position;
+    }
 
-/*
-  .entry:first-child:after {
-    height: 10px;
-    border-radius: 10px 0 0 0;
-  }
-*/
+    &:first-child:after {
+      height: $corner-radius;
+      border-top: none;
+      border-bottom: 2px solid #000;
+      margin-top: -8px;
+    }
 
-  .entry:last-child:before {
-    width: 10px;
-    height: 50%;
-    border-radius: 0 0 0 10px;
-  }
+    &:last-child:before {
+      width: $corner-radius;
+      height: 25px;
+      border-radius: 0 0 0 $corner-radius;
+      border-left: 2px solid #000;
+    }
 
-  .entry:last-child:after {
-    height: 10px;
-    border-top: none;
-    border-bottom: 2px solid #0ff;
-    border-radius: 0 0 0 10px;
-    margin-top: -9px;
-  }
+    &:last-child:after {
+      height: $corner-radius;
+      border-top: none;
+      border-bottom: 2px solid #000;
+      border-radius: 0 0 0 $corner-radius;
+      margin-top: -5px;
+    }
 
-  .entry.sole:before {
-    display: none;
-  }
+    &.sole:before {
+      display: none;
+    }
 
-  .entry.sole:after {
-    top: 20px;
-    width: 50px;
-    height: 0;
-    margin-top: 1px;
-    border-radius: 0;
+    &.sole:after {
+      border-radius: 0;
+      margin-top: -8px;
+    }
   }
 
   .entry-label {
@@ -116,7 +108,7 @@
     border-radius: 5px;
     position: absolute;
     left: 0;
-    top: 20px;
+    top: $top-position;
     margin-top: -15px;
 
     overflow: hidden;
