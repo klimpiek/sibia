@@ -21,29 +21,36 @@
 .flowchart {
   .branch {
     position: relative;
-    margin-left: 250px;
+    margin-left: 150px;
+    margin-bottom: 80px;
+    padding-top: 65px;
+    // height: 300px;
   }
 
   .branch:before {
     content: "";
-    width: 50px;
-    border-top: 2px solid #000;
+    width: 70px;
+    height: 50px;
+    border-bottom: 2px solid #f00;
+    border-left: 2px solid #000;
+    border-radius: 0 0 0 10px;
     position: absolute;
-    left: -100px;
-    top: 50%;
+    left: -120px;
+    top: 37px;
     margin-top: 1px;
   }
 
   .entry {
     position: relative;
+    // padding-top: 65px;
     min-height: 3em;
-    max-width: 150px;
+    // max-width: 150px;
   }
 
   .entry:before {
     content: "";
     height: 100%;
-    border-left: 2px solid #000;
+    border-left: 2px solid #0f0;
     position: absolute;
     left: -50px;
   }
@@ -51,10 +58,10 @@
   .entry:after {
     content: "";
     width: 50px;
-    border-top: 2px solid #000;
+    border-top: 2px solid #00f;
     position: absolute;
     left: -50px;
-    top: 50%;
+    top: 20px;
     margin-top: 1px;
   }
 
@@ -63,13 +70,15 @@
     height: 50%;
     top: 50%;
     margin-top: 2px;
-    border-radius: 10px 0 0 0;
+    // border-radius: 10px 0 0 0;
   }
 
+/*
   .entry:first-child:after {
     height: 10px;
     border-radius: 10px 0 0 0;
   }
+*/
 
   .entry:last-child:before {
     width: 10px;
@@ -80,7 +89,7 @@
   .entry:last-child:after {
     height: 10px;
     border-top: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid #0ff;
     border-radius: 0 0 0 10px;
     margin-top: -9px;
   }
@@ -90,6 +99,7 @@
   }
 
   .entry.sole:after {
+    top: 20px;
     width: 50px;
     height: 0;
     margin-top: 1px;
@@ -106,7 +116,7 @@
     border-radius: 5px;
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 20px;
     margin-top: -15px;
 
     overflow: hidden;
